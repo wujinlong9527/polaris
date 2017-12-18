@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qmcb.mapper.polaris.SysMenuMapper">
+    <select id="selectSysmenuList" resultType="com.qmcb.entity.SysMenu">
+        SELECT id, `text`, parentId, sequence, iconCls, url, isdel,
+        case parentId when 0 then 1
+        else 0
+        end isParentId
+        FROM sysmenu
+        <where>
+            <if test="text != null and text != ''">
+                and text = #{text}
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and parentId = #{parentId}
+            </if>
+            <if test="sequence != null and sequence != ''">
+                and sequence = #{sequence}
+            </if>
+            <if test="iconCls != null and iconCls != ''">
+                and iconCls = #{iconCls}
+            </if>
+            <if test="url != null and url != ''">
+                and url = #{url}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSysmenuById" resultType="com.qmcb.entity.SysMenu">
+		 SELECT id, `text`, parentId parentId, sequence, iconCls, url, isdel
+		  FROM sysmenu
+		   where id = #{id}
+	</select>
+
+    <select id="selectParentName" resultType="com.qmcb.entity.SysMenu">
+		SELECT id,
+			   `text`,
+			   parentId,
+			   sequence,
+			   iconCls,
+			   url,
+			   isdel
+		  FROM sysmenu
+		 WHERE parentId = '0'
+	</select>
+
+    <insert id="addSysMenu" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO sysmenu(id,
+    `text`,
+    parentId,
+    sequence,
+    iconCls,
+    url,
+    isdel
+    )
+    VALUES (#{id},
+    #{text},
+    #{parentId},
+    #{sequence},
+    #{iconCls},
+    #{url},
+    0
+    )
+</insert>
+
+    <update id="editSysMenu">
+        update sysmenu
+        <set>
+            text =#{text},
+            parentId =#{parentId},
+            sequence =#{sequence},
+            iconCls=#{iconCls},
+            url =#{url}
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysMenu">
+		delete from sysmenu
+		 where id = #{id}
+	</delete>
+
+    <select id="selectMaxId" resultType="Integer">
+     SELECT
+     CASE WHEN MAX(id) IS NULL THEN (SELECT MAX(id)+1 FROM sysmenu WHERE parentId = #{id})
+          ELSE 0 END id
+          FROM (SELECT id+1 id,parentId
+          FROM (SELECT MAX(id) id,MAX(parentId) parentId  FROM sysmenu WHERE parentId = #{id} GROUP BY parentId) a) b
+     WHERE b.id IN (SELECT id FROM sysmenu)
+	</select>
+
+
+    <select id="selectMemuButton" resultType="com.qmcb.entity.SysMenu">
+        SELECT id, ename, cname, menuid
+        FROM menubutton
+        where menuid = #{menuId}
+    </select>
+
+    <insert id="addMenuButton" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO menubutton(ename, cname, menuid)
+        VALUES
+        (
+        #{eName}, #{cName}, #{menuId}
+        )
+    </insert>
+
+    <update id="editMenuButton">
+        update menubutton
+        <set>
+            ename =#{eName},
+            cname =#{cName},
+            menuid =#{menuId}
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMenuButton">
+        delete from menubutton
+        where id = #{id}
+    </delete>
+
+    <update id="disableMenu">
+        update sysmenu
+        <set>
+            isdel = 1
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="enableMenu">
+        update sysmenu
+        <set>
+            isdel = 0
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

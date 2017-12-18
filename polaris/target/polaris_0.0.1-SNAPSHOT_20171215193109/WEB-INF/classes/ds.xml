@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<beans xmlns="http://www.springframework.org/schema/beans"    
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:aop="http://www.springframework.org/schema/aop"   
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:jee="http://www.springframework.org/schema/jee"  
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xsi:schemaLocation="    
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd  
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd  
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+
+	<!-- 配置数据源hikari连接池配置方法 -->
+	<bean id="examplds"
+		  class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="jdbcUrl" value="${jdbc.qmcb.url}"/>
+		<property name="username" value="${jdbc.qmcb.user}"/>
+		<property name="password" value="${jdbc.qmcb.password}"/>
+		<property name="maximumPoolSize" value="${jdbc.qmcb.maximumPoolSize}"/>
+
+		<property name="minimumIdle" value="${jdbc.qmcb.minimumIdle}"/>
+		<property name="connectionTestQuery" value="${jdbc.qmcb.connectionTestQuery}"/>
+		<property name="connectionTimeout" value="${jdbc.qmcb.connectionTimeout}"/>
+		<property name="idleTimeout" value="${jdbc.qmcb.idleTimeout}"/>
+		<property name="maxLifetime" value="${jdbc.qmcb.maxLifetime}"/>
+
+	</bean>
+
+	<!-- transaction manager -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="examplds" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" mode="aspectj"/>
+
+	<!-- mybatis factory -->
+	<bean id="qmcbSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="examplds"/>
+		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
+		<property name="mapperLocations" value="classpath*:/mappers/*.xml"/>
+	</bean>
+
+	<!-- scan mappers under the dao dir -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="qmcbSqlSessionFactory"/>
+		<property name="basePackage" value="com.qmcb.mapper.polaris"/>
+	</bean>
+
+</beans>
