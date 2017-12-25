@@ -37,4 +37,6 @@ public interface SysGroupMapper {
     public void editSysGroup(SysGroup sysGroup);
 
     public String getGroupnameById(@Param("groupid") String groupid);
+
+    public List<SysGroup> getGroupListByid(SysGroup sysGroup);
 }

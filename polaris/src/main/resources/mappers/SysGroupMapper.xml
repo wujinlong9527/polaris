@@ -42,4 +42,8 @@
     <select id="getGroupnameById" parameterType="String" resultType="String">
         select groupname from sysgroup where groupid=#{groupid}
     </select>
+
+    <select id="getGroupListByid" resultType="com.polaris.entity.SysGroup">
+        SELECT DISTINCT a.groupid,a.groupname FROM sysgroup a INNER JOIN sysuser b ON a.groupid=b.groupid
+    </select>
 </mapper>

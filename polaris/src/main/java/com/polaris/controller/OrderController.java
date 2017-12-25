@@ -106,7 +106,7 @@ public class OrderController {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             SysGroup sysGroup = null;
-            List<SysGroup> list = sysGroupService.getGroupList(sysGroup);
+            List<SysGroup> list = sysGroupService.getGroupListByid(sysGroup);
             if(list.size()>0){
                 Json j = new Json();
                 map.put("rows", list);
@@ -132,32 +132,33 @@ public class OrderController {
     public Json addOrder(Order order,HttpServletRequest request) {
         Json j = new Json();
         try {
-            String rq = StringUtil.getrq();
-            order.setInserttime(rq);
-            order.setOrderid(StringUtil.getId());
             String account = request.getSession().getAttribute("user").toString();
             order.setAccount(account);
-            order.setDdzt("02");
             BigDecimal money = dealmoney(BigDecimal.valueOf(order.getPrice()),order.getCount());
-            order.setAmount(String.valueOf(money));
+            String rq = StringUtil.getrq();
             if (order.getId() == 0) {
-                    int flag = orderService.addOrder(order);
-                    if(flag==0){
-                        j.setSuccess(true);
-                        j.setMsg("新增订单成功！");
-                    }else {
-                        j.setSuccess(false);
-                        j.setMsg("新增订单失败！");
-                    }
+                order.setInserttime(rq);
+                order.setOrderid(StringUtil.getId());
+                order.setDdzt("02");
+                order.setAmount(String.valueOf(money));
+                int flag = orderService.addOrder(order);
+                if(flag==0){
+                    j.setSuccess(true);
+                    j.setMsg("新增订单成功！");
+                }else {
+                    j.setSuccess(false);
+                    j.setMsg("新增订单失败！");
+                }
             } else {
-                    int flag=0;
-                    if(flag==0){
-                        j.setSuccess(true);
-                        j.setMsg("修改订单成功！");
-                    }else {
-                        j.setSuccess(false);
-                        j.setMsg("修改订单失败！");
-                    }
+                order.setAmount(String.valueOf(money));
+                int flag=orderService.editOrder(order);
+                if(flag==0){
+                    j.setSuccess(true);
+                    j.setMsg("修改订单成功！");
+                }else {
+                    j.setSuccess(false);
+                    j.setMsg("修改订单失败！");
+                }
             }
             j.setObj(order);
         } catch (Exception e) {

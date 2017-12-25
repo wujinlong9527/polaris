@@ -27,4 +27,6 @@ public interface OrderMapper {
     public Long getOrderCount(Order order);
 
     public int addOrder(Order order);
+
+    public int editOrder(Order order);
 }

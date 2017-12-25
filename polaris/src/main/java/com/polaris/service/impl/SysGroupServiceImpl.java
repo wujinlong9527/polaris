@@ -91,4 +91,14 @@ public class SysGroupServiceImpl implements ISysGroupService {
     public String getGroupnameById(String groupid){
         return sysGroupMapper.getGroupnameById(groupid);
     }
+
+    public List<SysGroup> getGroupListByid(SysGroup sysGroup){
+        List<SysGroup> list = null;
+        try {
+            list = sysGroupMapper.getGroupListByid(sysGroup);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

@@ -33,4 +33,6 @@ public interface ISysGroupService {
     public int editSysGroup(SysGroup sysGroup);
 
     public String getGroupnameById(String groupid);
+
+    public List<SysGroup> getGroupListByid(SysGroup sysGroup);
 }

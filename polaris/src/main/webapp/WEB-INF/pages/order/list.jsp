@@ -68,6 +68,8 @@
                 return '<span>' + '现金支付' + '</span>';
             } else if (val == '05') {
                 return '<span>' + '银行转账' + '</span>';
+            }else if (val == '06') {
+                return '<span>' + '其他方式' + '</span>';
             }
         }
 

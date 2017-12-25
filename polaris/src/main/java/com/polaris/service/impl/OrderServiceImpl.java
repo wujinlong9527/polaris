@@ -48,4 +48,15 @@ public class OrderServiceImpl implements IOrderService {
         }
         return ret;
     }
+
+    public int editOrder(Order order){
+        int ret = 0;
+        try {
+            orderMapper.editOrder(order);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret=9;
+        }
+        return ret;
+    }
 }

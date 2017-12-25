@@ -87,6 +87,8 @@
                 return '<span>' + '现金支付' + '</span>';
             } else if (val == '05') {
                 return '<span>' + '银行转账' + '</span>';
+            }else if (val == '06') {
+                return '<span>' + '其他方式' + '</span>';
             }
         }
 
@@ -103,11 +105,32 @@
         }
         function addorder() {
             $('#configfm').form('clear');
-            $("#aab301hide").show();
+            $('#groupid').combobox('enable');
+         //   $("#aab301hide").show();
             $('#configdlg').dialog('open').dialog('setTitle', '新增订单');
             $('#id').val("0");
             url = path + "/order/addOrder";
             mesTitle = '新增订单成功';
+        }
+
+        function editorder() {
+            $('#groupid').combobox('disable');
+         //   $("#aab301hide").hide();
+            url = path + "/order/addOrder";
+            var row = $('#datagrid').datagrid('getSelected');
+            if (row) {
+                var ddzt = row.ddzt;
+                if(ddzt=='01'){
+                    $.messager.alert("提示","订单已完成不能修改！","warning");
+                    return;
+                }
+                var id = row.id;
+                $('#configdlg').dialog('open').dialog('setTitle', '订单修改');
+                $('#configfm').form('load', row);//这句话有问题，第一次加载时正确的，第二次就出错了，还保持第一次的数据
+                mesTitle = '修改订单成功';
+            } else {
+                $.messager.alert('提示', '请选择要编辑的记录！', 'error');
+            }
         }
 
         function saveOrder() {
@@ -178,7 +201,7 @@
                 return;
             }
 
-            var jsfs = $('#jsfs').val().trim();
+            var jsfs = $('#jsfs').combobox('getValue');
             if(jsfs==null||jsfs==''){
                 $.messager.alert("提示","支付方式不能为空！（现金，微信，支付宝，银行转账，其他等）","error");
                 return;
@@ -188,11 +211,11 @@
                 $.messager.alert("提示","支付状态不能为空！","error");
                 return;
             }
-            var aab301 = $('#aab301').combobox('getValue');
+/*            var aab301 = $('#aab301').combobox('getValue');
             if(aab301==null||aab301==''){
                 $.messager.alert("提示","用户所在地不能为空！","error");
                 return;
-            }
+            }*/
             $('#configfm').form('submit', {
                 url: url,
                 success: function (result) {
@@ -259,7 +282,10 @@
                 &nbsp;
                 <label>订单编号:</label> <input id="orderid" name="orderid" class="easyui-textbox" style="width: 160px">
 
-
+                <a href="javascript:void(0);" class="easyui-linkbutton"
+                   iconCls="icon-search" plain="true" onclick="searchOrder();" >查询</a>
+                <a href="javascript:void(0);" class="easyui-linkbutton"
+                   iconCls="icon-reload" plain="true" onclick="onReset();" >重置</a>
             </div>
         </form>
 
@@ -268,9 +294,8 @@
             <a href="javascript:void(0);" class="easyui-linkbutton"
                iconCls="icon-add" plain="true" onclick="addorder();">新增订单</a>
             <a href="javascript:void(0);" class="easyui-linkbutton"
-               iconCls="icon-search" plain="true" onclick="searchOrder();" >查询</a>
-            <a href="javascript:void(0);" class="easyui-linkbutton"
-               iconCls="icon-reload" plain="true" onclick="onReset();">重置</a>
+               iconCls="icon-edit" plain="true" onclick="editorder();">编辑订单</a>
+
         </div>
     </div>
 
@@ -335,7 +360,7 @@
                     <td align="right">支付方式:</td>
                     <td>
                         <input id="jsfs" name="jsfs"  style="width: 180px"  class="easyui-combobox" data-options="panelHeight:'auto', editable:false,valueField:'id',textField:'text',
-					data:[{id:'01',text:'支付宝'},{id:'02',text:'微信支付'},{id:'03',text:'手机银行支付'},{id:'04',text:'现金支付'},{id:'05',text:'银行转账'}]"  class="easyui-validatebox" required="true"/>
+					data:[{id:'01',text:'支付宝'},{id:'02',text:'微信支付'},{id:'03',text:'手机银行支付'},{id:'04',text:'现金支付'},{id:'05',text:'银行转账'},{id:'06',text:'其他方式'}]"  class="easyui-validatebox" required="true"/>
                     </td>
                 </tr>
                 <tr>
@@ -345,11 +370,11 @@
 					data:[{id:'01',text:'已支付'},{id:'02',text:'待支付'},{id:'03',text:'月结'},{id:'04',text:'半月结'}]"  class="easyui-validatebox" required="true"/>
                     </td>
                 </tr>
-                <tr id="aab301hide">
+ <%--               <tr id="aab301hide">
                     <td align="right">用户所在地:</td>
                     <td><input id="aab301" name="aab301" style="width: 180px" class="easyui-combobox" data-options="panelHeight:'auto', editable:false,valueField:'id',textField:'text',
 					data:[{id:'341621',text:'涡阳县'},{id:'341622',text:'蒙城县'},{id:'341623',text:'利辛县'}]"  class="easyui-validatebox" required="true"></td>
-                </tr>
+                </tr>--%>
             </table>
         </form>
     </div>

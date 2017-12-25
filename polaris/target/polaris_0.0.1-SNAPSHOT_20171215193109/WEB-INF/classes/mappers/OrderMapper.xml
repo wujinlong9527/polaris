@@ -21,7 +21,7 @@
     <select id="getOrderList" resultType="com.polaris.entity.Order">
 
         SELECT a.id,a.orderid,a.groupid,a.price,a.amount,a.count,a.goods,a.readdress,a.account,a.username,a.phone,
-        a.tel,a.inserttime,a.ddzt,a.expressname,a.expressid,a.jsfs,a.jszt,a.endtime FROM aa01 a
+        a.tel,a.inserttime,a.ddzt,a.expressname,a.expressid,a.jsfs,a.jszt,a.endtime,a.aab301 FROM aa01 a
         WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
         and a.ddzt like concat('%',#{ddzt},'%')
         <if test="inserttime != null and inserttime != ''">
@@ -43,7 +43,11 @@
         ,#{phone},#{tel},#{inserttime},#{ddzt},#{jsfs},#{jszt},#{aab301})
     </insert>
 
+<update id="editOrder" >
+  update aa01 set price=#{price},count=#{count},amount=#{amount},goods=#{goods},readdress=#{readdress},phone=#{phone}
+  ,tel=#{tel},jsfs=#{jsfs},jszt=#{jszt} where id=#{id}
 
+</update>
 
 
 
