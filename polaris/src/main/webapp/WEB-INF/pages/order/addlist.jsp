@@ -76,7 +76,31 @@
                 return '<span>' + '未处理' + '</span>';
             }
         }
+        function formatjsfs(val, row) {
+            if (val == '01') {
+                return '<span>' + '支付宝' + '</span>';
+            } else if (val == '02') {
+                return '<span>' + '微信支付' + '</span>';
+            } else if (val == '03') {
+                return '<span>' + '手机银行支付' + '</span>';
+            } else if (val == '04') {
+                return '<span>' + '现金支付' + '</span>';
+            } else if (val == '05') {
+                return '<span>' + '银行转账' + '</span>';
+            }
+        }
 
+        function formatjszt(val, row) {
+            if (val == '01') {
+                return '<span>' + '已支付' + '</span>';
+            } else if (val == '02') {
+                return '<span>' + '待支付' + '</span>';
+            } else if (val == '03') {
+                return '<span>' + '月结' + '</span>';
+            } else if (val == '04') {
+                return '<span>' + '半月结' + '</span>';
+            }
+        }
         function addorder() {
             $('#configfm').form('clear');
             $("#aab301hide").show();
@@ -198,8 +222,8 @@
             <th field="id" width="130" align="center" hidden="true">id</th>
             <th field="orderid" width="130" align="center">订单编号</th>
             <th field="groupid" width="130" align="center">经销商编号</th>
-            <th field="account" width="130" align="center">下单用户名</th>
-            <th field="username" width="130" align="center">客户姓名</th>
+            <th field="account" width="110" align="center">操作员</th>
+            <th field="username" width="110" align="center">客户姓名</th>
             <th field="goods" width="120" align="center">商品</th>
             <th field="price" width="80" align="center">单价（元）</th>
             <th field="count" width="80"  align="center">商品数量</th>
@@ -209,8 +233,8 @@
             <th field="endtime" width="130" align="center">订单完成时间</th>
             <th field="phone" width="90" align="center">手机号码</th>
             <th field="tel" width="110" align="center">联系电话</th>
-            <th field="jsfs" width="80" align="center">结算方式</th>
-            <th field="jszt" width="80" align="center">结算状态</th>
+            <th field="jsfs" width="80" formatter="formatjsfs" align="center">结算方式</th>
+            <th field="jszt" width="80" formatter="formatjszt" align="center">结算状态</th>
             <th field="expressname" width="80" align="center">派送员</th>
             <th field="expressid" width="80" align="center" >派送员编号</th>
             <th field="readdress" width="400" align="center">收货地址</th>
@@ -230,7 +254,7 @@
                 <label>结束日期:</label> <input id="finaltime" name="finaltime" class="easyui-datebox" data-options="editable:false" style="width: 100px">
                 &nbsp;
                 <label>订单状态:</label> <input id="ddzt" name="ddzt" class="easyui-combobox" style="width: 80px"
-                   data-options="panelHeight:'auto', editable:false,valueField:'id',textField:'text',
+                                            data-options="panelHeight:'auto', editable:false,valueField:'id',textField:'text',
 					data:[{id:'',text:'全部'},{id:'01',text:'已完成'},{id:'02',text:'处理中'},{id:'03',text:'未处理'}]">
                 &nbsp;
                 <label>订单编号:</label> <input id="orderid" name="orderid" class="easyui-textbox" style="width: 160px">
@@ -310,7 +334,8 @@
                 <tr>
                     <td align="right">支付方式:</td>
                     <td>
-                        <input id="jsfs" name="jsfs"  style="width: 180px"  class="easyui-validatebox" required="true"/>
+                        <input id="jsfs" name="jsfs"  style="width: 180px"  class="easyui-combobox" data-options="panelHeight:'auto', editable:false,valueField:'id',textField:'text',
+					data:[{id:'01',text:'支付宝'},{id:'02',text:'微信支付'},{id:'03',text:'手机银行支付'},{id:'04',text:'现金支付'},{id:'05',text:'银行转账'}]"  class="easyui-validatebox" required="true"/>
                     </td>
                 </tr>
                 <tr>
