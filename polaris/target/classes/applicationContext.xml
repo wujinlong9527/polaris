@@ -24,10 +24,10 @@
     <task:scheduler id="appScheduler" pool-size="20"/> 
     
 	<!-- 自动扫描 -->
-	<context:component-scan base-package="com.qmcb.dao.impl" />
-	<context:component-scan base-package="com.qmcb.service.impl" />
+	<context:component-scan base-package="com.polaris.dao.impl" />
+	<context:component-scan base-package="com.polaris.service.impl" />
 	<!-- 定时任务 -->
-	<context:component-scan base-package="com.qmcb.task" />
+	<context:component-scan base-package="com.polaris.task" />
 	
   <!-- Spring中引入其他配置文件 -->
     <import resource="classpath:ds.xml" />

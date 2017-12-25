@@ -10,7 +10,42 @@
 
     <script type="text/javascript">
 
+        var xzuq = "";
+        var gid="";
+        var gname="";
+
         window.onload = function () {
+
+            $('#groupid').combobox({
+                editable: false, //编辑状态
+                cache: false,
+                panelHeight: 'auto',//自动高度适合
+                valueField: 'groupid',
+                textField: 'groupname'
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "${path}/user/getgroupname",
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    $("#groupid").combobox("loadData", data.rows);
+                }
+            });
+/*
+            $.ajax({
+                type: "POST",
+                url: "${path}/user/getgroupname",
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    xzuq=data.aab301;
+                    gid=data.groupid;
+                    gname=data.groupname;
+                }
+            });*/
+
             $('#openRoleDiv').dialog({
                 onClose: function () {
                     $("#datagrid").datagrid("options").url = "${path}/user/datagrid?" + $("#fmorder").serialize();
@@ -40,13 +75,13 @@
 
 
         function addUser() {
+            $('#configfm').form('clear');
             $("#account").attr("readonly", false);
             $("#groupid").attr("readonly", false);
             $("#groupname").attr("readonly", false);
             $("#sehide").show();
             $("#aab301hide").show();
             $('#configdlg').dialog('open').dialog('setTitle', '新增用户');
-            $('#configfm').form('clear');
             $('#id').val("0");
             url = path + "/user/addUser";
             mesTitle = '新增用户成功';
@@ -71,15 +106,43 @@
         }
 
         function saveUser() {
-            if ($('#password').val().replace(/(^\s*)|(\s*$)/, "") == "") {
+            var groupid = $('#groupid').combobox('getValue');
+            if(groupid==null||groupid==''){
+                $.messager.alert("提示","商户名称不能为空！","error");
+                return;
+            }
+            if ($('#account').val().trim().replace(/(^\s*)|(\s*$)/, "") == "") {
+                $.messager.alert('提示', '账号不能为空！');
+                return;
+            }
+            if ($('#password').val().trim().replace(/(^\s*)|(\s*$)/, "") == "") {
                 $.messager.alert('提示', '密码不能为空！');
                 return;
             }
-
-            if($('#password').val().length < 6){
+            if ($('#username').val().trim().replace(/(^\s*)|(\s*$)/, "") == "") {
+                $.messager.alert('提示', '用户名姓名不能为空！');
+                return;
+            }
+            if($('#password').val().trim().length < 6){
                 $.messager.alert('提示', '密码长度必须大于6位！');
                 return;
             }
+            var phone = $('#telphone').val().trim();
+            if(phone==null||phone==''){
+                $.messager.alert("提示","手机号码不能为空！","error");
+                return;
+            }else {
+                var reg=/^\+?[1-9][0-9]*$/;
+                if(reg.test(phone)==false){
+                    $.messager.alert("提示","手机号码必须数字，请重新输入！","error");
+                    return;
+                }
+                if (phone.length != 11){
+                    $.messager.alert("提示", "手机号码不是11位有效号码！", "error");
+                    return;
+                }
+            }
+
 
             $('#configfm').form('submit', {
                 url: url,
@@ -87,16 +150,14 @@
                     return $(this).form('validate');
                 },
                 success: function (result) {
-                    /* console.info(result); */
                     var result = eval('(' + result + ')');
                     if (result.success) {
                         $('#configdlg').dialog('close');
                         $("#datagrid").datagrid("options").url = "${path}/user/datagrid";
                         $("#datagrid").datagrid("load");
-                        $.messager.alert('提示', result.msg);
+                        $.messager.alert('提示', result.msg,"info");
                     } else {
-                        mesTitle = '新增用户失败';
-                        $.messager.alert('提示', mesTitle);
+                        $.messager.alert('提示', result.msg,"error");
                     }
                 }
             });
@@ -177,7 +238,7 @@
             <th field="account" width="100">账号</th>
             <th field="username" width="100">用户姓名</th>
             <th field="roleName" width="100">角色</th>
-            <th field="groupname" width="100">商户名称</th>
+            <th field="groupname" width="130">商户名称</th>
             <th field="groupid" width="100">商户号</th>
             <th field="sex" width="40" formatter="formatsex">性别</th>
             <th field="telphone" width="100">电话</th>
@@ -214,7 +275,7 @@
 
     <!-- 对话框 -->
     <div id="configdlg" class="easyui-dialog"
-         style="width:310px;height:300px;padding:10px 20px" closed="true"
+         style="width:350px;height:300px;padding:10px 20px" closed="true"
          buttons="#dlg-buttons">
         <form id="configfm" method="post" novalidate>
 
@@ -222,40 +283,38 @@
                 <input id="id" name="id" type="hidden"></td>
                 <tr>
                     <td align="right">*账号:</td>
-                    <td><input id="account" name="account" style="width: 150px" class="easyui-validatebox"
+                    <td><input id="account" name="account" style="width: 180px" class="easyui-validatebox"
                                required="true"></td>
                 </tr>
                 <tr>
                     <td align="right">*姓名:</td>
-                    <td><input id="username" name="username" style="width: 150px" class="easyui-validatebox"
+                    <td><input id="username" name="username" style="width: 180px" class="easyui-validatebox"
                                required="true"></td>
                 </tr>
                 <tr>
                     <td align="right">*密码:</td>
-                    <td><input id="password" name="password" type="text" style="width: 150px" class="easyui-validatebox"
+                    <td><input id="password" name="password" type="text" style="width: 180px" class="easyui-validatebox"
                                required="true"></td>
                 </tr>
                 <tr id="sehide">
                     <td align="right">性别:</td>
-                    <td><input id="sex" name="sex" style="width: 155px" class="easyui-combobox" data-options="panelHeight:'auto', editable:false,valueField:'id',textField:'text',
+                    <td><input id="sex" name="sex" style="width: 180px" class="easyui-combobox" data-options="panelHeight:'auto', editable:false,valueField:'id',textField:'text',
 					data:[{id:'1',text:'男'},{id:'2',text:'女'}]"  class="easyui-validatebox" required="true"></td>
                 </tr>
                 <tr>
                     <td align="right">商户名称:</td>
-                    <td><input id="groupname" name="groupname" style="width: 150px" class="easyui-validatebox" required="true"></td>
-                </tr>
-                <tr>
-                    <td align="right">商户号:</td>
-                    <td><input id="groupid" name="groupid" style="width: 150px" class="easyui-validatebox" required="true"></td>
+                    <td>
+                        <input id="groupid" name="groupid"  style="width: 180px" data-options="required:true"/>
+                    </td>
                 </tr>
                 <tr id="aab301hide">
                     <td align="right">用户所在地:</td>
-                    <td><input id="aab301" name="aab301" style="width: 150px" class="easyui-combobox" data-options="panelHeight:'auto', editable:false,valueField:'id',textField:'text',
+                    <td><input id="aab301" name="aab301" style="width: 180px" class="easyui-combobox" data-options="panelHeight:'auto', editable:false,valueField:'id',textField:'text',
 					data:[{id:'341621',text:'涡阳县'},{id:'341622',text:'蒙城县'},{id:'341623',text:'利辛县'}]"  class="easyui-validatebox" required="true"></td>
                 </tr>
                 <tr>
                     <td align="right">电话:</td>
-                    <td><input id="telphone" name="telphone" style="width: 150px"></td>
+                    <td><input id="telphone" name="telphone" style="width: 180px"></td>
                 </tr>
             </table>
         </form>

@@ -6,19 +6,24 @@
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/login.jsp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/css" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/css/default.css" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/css/demo.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/css/icon.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/error" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/images" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/images/1.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/images/2.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/images/dl.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/images/edit_add.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/images/icons" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/images/images" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/images/loginBg.jpg" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/images/loginIcon.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/images/loginLogo.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/images/loginSubmit.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/images/pwp.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/images/tabicons.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/images/wood.jpg" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/images/wood_pattern.jpg" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/images/wood_pattern.png" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/images/wood_pattern.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/images/yhp.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/js" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/js/jquery-easyui-1.4/themes/cupertino" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/js/jquery-easyui-1.4/themes/darkhive" charset="UTF-8" />

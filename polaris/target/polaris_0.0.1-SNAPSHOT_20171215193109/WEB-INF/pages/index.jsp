@@ -10,28 +10,6 @@
     <script type="text/javascript" src='${path}/js/outlook.js'></script>
     <script type="text/javascript">
 
-        function addTab(bankName, bankId, isdel, orderAction) {
-//            if (isdel == 1) {
-//                $.messager.alert('错误提示', "数据已经禁用,不需要编辑！");
-//                return;
-//            }
-            var src = path + '/routestrategy/list?bankId=' + bankId + '&orderAction=' + orderAction;
-            var tabs = $('#mainTabs');
-            var opts = {
-                title: bankName,
-                closable: true,
-                iconCls: "icon-sh",
-                content: $.formatString('<iframe src="{0}" allowTransparency="true" style="border:0;width:100%;height:99%;" frameBorder="0"></iframe>', src),
-                border: false,
-                fit: true
-            };
-            if (tabs.tabs('exists', opts.title)) {
-                tabs.tabs('select', opts.title);
-            } else {
-                tabs.tabs('add', opts);
-            }
-        }
-
         function alertPsw() {
             $('#configfm').form('clear');
             $('#account').val("<%=request.getSession().getAttribute("user") %>");

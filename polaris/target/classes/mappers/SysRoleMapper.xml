@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qmcb.mapper.polaris.SysRoleMapper">
-    <select id="findSysRoleList" resultType="com.qmcb.entity.SysRole">
+<mapper namespace="com.polaris.mapper.polaris.SysRoleMapper">
+    <select id="findSysRoleList" resultType="com.polaris.entity.SysRole">
         SELECT id, rolename,memo FROM sysrole
 	</select>
 
-    <select id="getSysRoleById" resultType="com.qmcb.entity.SysRole">
+    <select id="findSysRoleListByid" resultType="com.polaris.entity.SysRole">
+        SELECT id, rolename,memo FROM sysrole where id != 1
+    </select>
+
+    <select id="getSysRoleById" resultType="com.polaris.entity.SysRole">
 		SELECT id, rolename,memo FROM sysrole
 		where id = #{id}
 	</select>
 
 
-    <select id="getRoleMenuById" resultType="com.qmcb.entity.SysMenu">
+    <select id="getRoleMenuById" resultType="com.polaris.entity.SysMenu">
         select c.*,a.menu_button from sysmenu c JOIN role_menu a on a.menu_id = c.id
          where roleid = #{id}
     </select>
@@ -52,7 +56,7 @@
         VALUES (#{roleid}, #{menu_id},#{menu_button})
     </insert>
 
-    <select id="getRoleMenuButtonById" resultType="com.qmcb.entity.SysMenu">
+    <select id="getRoleMenuButtonById" resultType="com.polaris.entity.SysMenu">
         select * from role_menu
         where
           roleid=#{roleid}

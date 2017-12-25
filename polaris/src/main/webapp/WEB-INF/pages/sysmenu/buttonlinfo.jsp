@@ -122,6 +122,32 @@
         <input id="menuId" name="menuId" type="hidden" value="${sysmenu.menuId}"></td>
     </div>
 
+<%--
+<c:if test="${button.size()>0}">
+    <div id="toolbar1">
+    <c:forEach var="button" items="${button}">
+        <c:if test="${button.menu_button == 'add'}">
+            < a href=" " class="easyui-linkbutton"
+            iconCls="icon-add" plain="true" onclick="addConfig();">添加</ a>
+        </c:if>
+        <c:if test="${button.menu_button == 'edit'}">
+            < a href="javascript:void(0);" class="easyui-linkbutton"
+            iconCls="icon-remove" plain="true" onclick="editConfig();">编辑</ a>
+        </c:if>
+        <c:if test="${button.menu_button == 'delete'}">
+            < a href="javascript:void(0);" class="easyui-linkbutton"
+            iconCls="icon-remove" plain="true" onclick="removeConfig();">删除</ a>
+        </c:if>
+        <c:if test="${button.menu_button == 'recover'}">
+            < a href="javascript:void(0);" class="easyui-linkbutton"
+            iconCls="icon-remove" plain="true" onclick="recoverConfig();">恢复</ a>
+        </c:if>
+    </c:forEach>
+    </div>
+</c:if>--%>
+
+
+
 
     <!-- 对话框 -->
     <div id="configdlg" class="easyui-dialog"

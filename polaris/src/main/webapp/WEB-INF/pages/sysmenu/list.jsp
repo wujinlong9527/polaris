@@ -253,7 +253,7 @@
             <th data-options="field:'iconCls',width:80">图标</th>
             <th data-options="field:'parentId',width:80">上级资源ID</th>
             <th data-options="field:'isdel',width:50" formatter="formatIsdel">状态</th>
-            <th data-options="field:'opt',width:120" formatter="formatdata">操作</th>
+          <%--  <th data-options="field:'opt',width:120" formatter="formatdata" >操作</th>--%>
         </tr>
         </thead>
     </table>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qmcb.mapper.polaris.UserMapper">
-    <select id="findUserByName" parameterType="String" resultType="com.qmcb.entity.User">
+<mapper namespace="com.polaris.mapper.polaris.UserMapper">
+    <select id="findUserByName" parameterType="String" resultType="com.polaris.entity.User">
 		select id, username, password, aab301, account, telphone, sex,groupname,groupid
 		from sysuser  where account = #{account}
 	</select>
@@ -10,7 +10,7 @@
 		select account,username  from sysuser where id = #{id}
 	</select>
 
-    <select id="getMenuByUserId" resultType="com.qmcb.entity.SysMenu">
+    <select id="getMenuByUserId" resultType="com.polaris.entity.SysMenu">
 		SELECT distinct m.id,m.text,m.parentId ,m.iconCls,m.url,rm.menu_button
 		FROM sysmenu m
 		  LEFT JOIN role_menu rm
@@ -43,7 +43,7 @@
         </if>
     </select>
 
-    <select id="getUserList" resultType="com.qmcb.entity.User">
+    <select id="getUserList" resultType="com.polaris.entity.User">
         SELECT id, username, PASSWORD, aab301, account, telphone, sex,groupname,groupid
         FROM sysuser  where 1=1
         <if test="groupid != null and groupid != ''">
@@ -54,7 +54,7 @@
         </if>
     </select>
 
-    <select id="datagridUser" resultType="com.qmcb.entity.User">
+    <select id="datagridUser" resultType="com.polaris.entity.User">
         SELECT id, username, PASSWORD, aab301, account, telphone, sex,groupname,groupid
         FROM sysuser  where 1=1
         <if test="page > 0">
@@ -95,6 +95,7 @@
         <set>
             <if test="account !=null and account !=''">account =#{account},</if>
             <if test="username !=null and username !=''">username =#{username},</if>
+            <if test="groupname !=null and groupname !=''">groupname =#{groupname},</if>
             <if test="password !=null and password !=''">password =#{password},</if>
             <if test="sex !=null and sex !=''">sex =#{sex},</if>
             <if test="telphone !=null and telphone !=''">telphone =#{telphone}</if>
@@ -107,7 +108,7 @@
 		 where id = #{id}
 	</delete>
 
-    <select id="selectUserRole" resultType="com.qmcb.entity.User">
+    <select id="selectUserRole" resultType="com.polaris.entity.User">
 		SELECT id, userId, roleId
 		FROM user_role
 		where userid = #{userId}
@@ -132,7 +133,7 @@
 		select COUNT(1) from sysuser where account = #{account}
 	</select>
 
-    <select id="getRoleById" resultType="com.qmcb.entity.SysRole">
+    <select id="getRoleById" resultType="com.polaris.entity.SysRole">
 		select a.id , a.rolename ,a.memo
 		from sysrole a INNER JOIN user_role b
 		on a.id = b.roleId
@@ -151,4 +152,18 @@
           where account=#{account}
     </update>
 
+    <insert id="addlog" parameterType="String">
+         INSERT INTO optlog(account,roleid,bczid,inserttime,bz)
+          VALUES (#{account},#{ids},#{userId},#{inserttime},#{bz})
+    </insert>
+
+    <select id="getAccountroleid" resultType="String" parameterType="String">
+      SELECT (CASE WHEN roleid IS NULL THEN "" ELSE MIN(b.roleid) END) roleid
+      FROM sysuser a LEFT JOIN user_role b ON a.id=b.userId WHERE a.account=#{account}
+    </select>
+
+    <select id="getgroupname" parameterType="String" resultType="com.polaris.entity.User">
+        SELECT id,account,userName,groupid,groupname,aab301 FROM sysuser WHERE account=#{account}
+
+    </select>
 </mapper>

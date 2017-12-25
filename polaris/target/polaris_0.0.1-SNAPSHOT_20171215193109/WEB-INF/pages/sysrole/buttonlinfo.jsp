@@ -14,7 +14,7 @@
 
         window.onload = function () {
 
-            $('#datagrid').datagrid({
+           $('#datagrid').datagrid({
                 onLoadSuccess: function (row) {//当表格成功加载时执行
                     var rowData = row.rows;
                     $.each(rowData, function (idx, val) {//遍历JSON
@@ -35,7 +35,7 @@
             return "<input type='checkbox'  id = 'check_" + row.id + "'" + (row.isSelected ? 'checked' : '') + "/>";
         }
 
-        function save() {
+      function save() {
             var array = $('#datagrid').datagrid('getChecked');
             var ids = "";
 
@@ -73,7 +73,7 @@
 <div region="center" border="false" style="overflow: hidden;">
     <!-- 策略信息列表 -->
     <input id="menuId" name="menuId" type="hidden" value="${sysrole.menu_id}"></td>
-    <input id="roleId" name="roleId" type="hidden" value="${sysrole.role_id}"></td>
+    <input id="roleId" name="roleId" type="hidden" value="${sysrole.roleid}"></td>
     <table id="datagrid" class="easyui-datagrid" fit="true"
            url="" toolbar="#toolbar" pagination="fasle"
            fitColumns="false" singleSelect="false" rownumbers="true"

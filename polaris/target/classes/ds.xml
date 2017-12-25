@@ -48,7 +48,7 @@
 	<!-- scan mappers under the dao dir -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="qmcbSqlSessionFactory"/>
-		<property name="basePackage" value="com.qmcb.mapper.polaris"/>
+		<property name="basePackage" value="com.polaris.mapper.polaris"/>
 	</bean>
 
 </beans>

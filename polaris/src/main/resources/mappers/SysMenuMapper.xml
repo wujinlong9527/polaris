@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qmcb.mapper.polaris.SysMenuMapper">
-    <select id="selectSysmenuList" resultType="com.qmcb.entity.SysMenu">
+<mapper namespace="com.polaris.mapper.polaris.SysMenuMapper">
+    <select id="selectSysmenuList" resultType="com.polaris.entity.SysMenu">
         SELECT id, `text`, parentId, sequence, iconCls, url, isdel,
         case parentId when 0 then 1
         else 0
@@ -26,13 +26,13 @@
         </where>
     </select>
 
-    <select id="selectSysmenuById" resultType="com.qmcb.entity.SysMenu">
+    <select id="selectSysmenuById" resultType="com.polaris.entity.SysMenu">
 		 SELECT id, `text`, parentId parentId, sequence, iconCls, url, isdel
 		  FROM sysmenu
 		   where id = #{id}
 	</select>
 
-    <select id="selectParentName" resultType="com.qmcb.entity.SysMenu">
+    <select id="selectParentName" resultType="com.polaris.entity.SysMenu">
 		SELECT id,
 			   `text`,
 			   parentId,
@@ -81,16 +81,11 @@
 	</delete>
 
     <select id="selectMaxId" resultType="Integer">
-     SELECT
-     CASE WHEN MAX(id) IS NULL THEN (SELECT MAX(id)+1 FROM sysmenu WHERE parentId = #{id})
-          ELSE 0 END id
-          FROM (SELECT id+1 id,parentId
-          FROM (SELECT MAX(id) id,MAX(parentId) parentId  FROM sysmenu WHERE parentId = #{id} GROUP BY parentId) a) b
-     WHERE b.id IN (SELECT id FROM sysmenu)
+      SELECT MAX(id) FROM sysmenu
 	</select>
 
 
-    <select id="selectMemuButton" resultType="com.qmcb.entity.SysMenu">
+    <select id="selectMemuButton" resultType="com.polaris.entity.SysMenu">
         SELECT id, ename, cname, menuid
         FROM menubutton
         where menuid = #{menuId}

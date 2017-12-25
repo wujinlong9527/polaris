@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>用户管理</title>
+   <title>用户管理</title>
     <%@include file="/WEB-INF/pages/include/easyui.jsp" %>
     <!-- 对话框的样式 -->
     <link href="${path}/css/userList.css" rel="stylesheet" type="text/css"/>
@@ -173,7 +173,7 @@
     <div id="openRoleDiv" class="easyui-dialog" closed="true" modal="true" title="分配角色"
          style="width:800px;height:450px;" buttons="#configdlg-buttons">
         <iframe scrolling="auto" id='iframe1' name='iframe1' frameborder="0"
-        <%--     src="${path}/configdeal/dealinfo"  --%>
+        &lt;%&ndash;     src="${path}/configdeal/dealinfo"  &ndash;%&gt;
                 style="width:100%;height:100%;"></iframe>
     </div>
 

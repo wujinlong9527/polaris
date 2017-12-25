@@ -144,8 +144,8 @@
         <thead>
         <tr>
             <th field="id" width="120" formatter="formatcheckbox" resize="height:100">编号</th>
-            <th field="text" width="150" align="right">菜单名称</th>
-            <th data-options="field:'opt',width:120" formatter="formatdata">操作</th>
+            <th field="text" width="150" align="left">菜单名称</th>
+       <%--     <th data-options="field:'opt',width:120" formatter="formatdata">操作</th>--%>
         </tr>
         </thead>
     </table>
