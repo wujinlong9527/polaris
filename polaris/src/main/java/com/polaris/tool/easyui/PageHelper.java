@@ -5,9 +5,9 @@ package com.polaris.tool.easyui;
  * 项目名称：SpringMvcDemo    
  * 类名称：PageHelper    
  * 类描述： easyui的datagrid向后台传递参数使用的model   
- * 创建人：贾瑞宁    
+ * 创建人：武金龙    
  * 创建时间：2015年11月7日 下午2:25:49    
- * 修改人：贾瑞宁    
+ * 修改人：武金龙    
  * 修改时间：2015年11月7日 下午2:25:49    
  * 修改备注：    
  * @version     

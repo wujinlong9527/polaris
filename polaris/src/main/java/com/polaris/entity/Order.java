@@ -48,8 +48,9 @@ public class Order extends PageHelper {
      * 商品
      *
      * ***/
-    private String goods;
+    private String goodsid;
 
+    private String goodsname;
     /**
      * 收货地址
      *
@@ -134,6 +135,46 @@ public class Order extends PageHelper {
 
     private String finaltime;
 
+    private String groupname;
+
+    private String gtype;
+
+    private String gtypename;
+
+    private Integer gcount;
+
+    public Integer getGcount() {
+        return gcount;
+    }
+
+    public void setGcount(Integer gcount) {
+        this.gcount = gcount;
+    }
+
+    public String getGtype() {
+        return gtype;
+    }
+
+    public void setGtype(String gtype) {
+        this.gtype = gtype;
+    }
+
+    public String getGtypename() {
+        return gtypename;
+    }
+
+    public void setGtypename(String gtypename) {
+        this.gtypename = gtypename;
+    }
+
+    public String getGroupname() {
+        return groupname;
+    }
+
+    public void setGroupname(String groupname) {
+        this.groupname = groupname;
+    }
+
     public String getFinaltime() {
         return finaltime;
     }
@@ -192,14 +233,6 @@ public class Order extends PageHelper {
 
     public void setCount(int count) {
         this.count = count;
-    }
-
-    public String getGoods() {
-        return goods;
-    }
-
-    public void setGoods(String goods) {
-        this.goods = goods;
     }
 
     public String getReaddress() {
@@ -362,16 +395,33 @@ public class Order extends PageHelper {
         this.aaa003 = aaa003;
     }
 
+    public String getGoodsid() {
+        return goodsid;
+    }
+
+    public void setGoodsid(String goodsid) {
+        this.goodsid = goodsid;
+    }
+
+    public String getGoodsname() {
+        return goodsname;
+    }
+
+    public void setGoodsname(String goodsname) {
+        this.goodsname = goodsname;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
                 ", orderid='" + orderid + '\'' +
                 ", groupid='" + groupid + '\'' +
-                ", price='" + price + '\'' +
+                ", price=" + price +
                 ", amount='" + amount + '\'' +
                 ", count=" + count +
-                ", goods='" + goods + '\'' +
+                ", goodsid='" + goodsid + '\'' +
+                ", goodsname='" + goodsname + '\'' +
                 ", readdress='" + readdress + '\'' +
                 ", account='" + account + '\'' +
                 ", username='" + username + '\'' +
@@ -393,6 +443,10 @@ public class Order extends PageHelper {
                 ", aaa002='" + aaa002 + '\'' +
                 ", aaa003='" + aaa003 + '\'' +
                 ", finaltime='" + finaltime + '\'' +
+                ", groupname='" + groupname + '\'' +
+                ", gtype='" + gtype + '\'' +
+                ", gtypename='" + gtypename + '\'' +
+                ", gcount='" + gcount + '\'' +
                 '}';
     }
 }

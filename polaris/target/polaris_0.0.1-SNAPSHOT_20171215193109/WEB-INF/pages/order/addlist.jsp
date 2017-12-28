@@ -11,7 +11,7 @@
     <script type="text/javascript">
         var url;
         var mesTitle;
-
+        var bz = 0;
         formatterDate = function (date) {
             var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
             var month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0"
@@ -21,23 +21,23 @@
 
         window.onload = function () {
 
-            $('#groupid').combobox({
-                editable: false, //编辑状态
+          /*  $('#goodsid').combobox({
+                editable: true, //编辑状态
                 cache: false,
-                panelHeight: 'auto',//自动高度适合
-                valueField: 'groupid',
-                textField: 'groupname'
+                //    panelHeight: 'auto',//自动高度适合，不自动出现滚动条
+                valueField: 'goodsid',
+                textField: 'goodsname'
             });
 
             $.ajax({
-                type: "POST",
-                url: "${path}/order/getgrouname",
-                cache: false,
-                dataType: "json",
-                success: function (data) {
-                    $("#groupid").combobox("loadData", data.rows);
-                }
-            });
+                 type: "POST",
+                 url: "${path}/goods/getgoodsname",
+                 cache: false,
+                 dataType: "json",
+                 success: function (data) {
+                     $("#goodsid").combobox("loadData", data.rows);
+                 }
+             });*/
 
             $('#inserttime').datebox('setValue', formatterDate(new Date()));
             $('#finaltime').datebox('setValue', formatterDate(new Date()));
@@ -105,8 +105,6 @@
         }
         function addorder() {
             $('#configfm').form('clear');
-            $('#groupid').combobox('enable');
-         //   $("#aab301hide").show();
             $('#configdlg').dialog('open').dialog('setTitle', '新增订单');
             $('#id').val("0");
             url = path + "/order/addOrder";
@@ -114,8 +112,6 @@
         }
 
         function editorder() {
-            $('#groupid').combobox('disable');
-         //   $("#aab301hide").hide();
             url = path + "/order/addOrder";
             var row = $('#datagrid').datagrid('getSelected');
             if (row) {
@@ -136,15 +132,23 @@
         function saveOrder() {
             var groupid = $('#groupid').combobox('getValue');
             if(groupid==null||groupid==''){
-                $.messager.alert("提示","供货商名称不能为空！","error");
+                $.messager.alert("提示","商户名称不能为空！","error");
                 return;
             }
-            var goods = $('#goods').val().trim();
-            if(goods==null||goods==''){
+            var goodsid = $('#goodsid').combobox('getValue');
+            if(goodsid==null||goodsid==''){
                 $.messager.alert("提示","商品名称不能为空！","error");
                 return;
             }
-            var price = $('#price').val().trim();
+            var gcount = $('#gcount').combobox('getValue').trim();
+            if(gcount==null||gcount==''){
+                $.messager.alert("提示","库存数量不能为空！","error");
+                return;
+            }else if(gcount==0){
+                $.messager.alert("提示","库存不足，不能下订单，请稍后再试！","error");
+                return;
+            }
+            var price = $('#price').combobox('getValue').trim();
             if(price==null||price==''){
                 $.messager.alert("提示","商品价格不能为空！","error");
                 return;
@@ -157,15 +161,20 @@
             }
             var count = $('#count').val().trim();
             if(count==null||count==''){
-                $.messager.alert("提示","商品数量不能为空！","error");
+                $.messager.alert("提示","订购数量不能为空！","error");
                 return;
             }else{
                 var reg=/^\+?[1-9][0-9]*$/;
                 if(reg.test(count)==false){
-                    $.messager.alert("提示","商品数量必须是正整数，请重新输入！","error");
+                    $.messager.alert("提示","订购数量必须是正整数，请重新输入！","error");
                     return;
                 }
             }
+            if(parseInt(count)>parseInt(gcount)){
+                $.messager.alert("提示","订购数量不能超过库存数量，请重新输入！","error");
+                return;
+            }
+
             var phone = $('#phone').val().trim();
             if(phone==null||phone==''){
                 $.messager.alert("提示","手机号码不能为空！","error");
@@ -211,11 +220,7 @@
                 $.messager.alert("提示","支付状态不能为空！","error");
                 return;
             }
-/*            var aab301 = $('#aab301').combobox('getValue');
-            if(aab301==null||aab301==''){
-                $.messager.alert("提示","用户所在地不能为空！","error");
-                return;
-            }*/
+
             $('#configfm').form('submit', {
                 url: url,
                 success: function (result) {
@@ -230,7 +235,12 @@
                     }
                 }
             });
+            bz=0;
         }
+
+
+
+
     </script>
 
 </head>
@@ -244,11 +254,14 @@
         <tr>
             <th field="id" width="130" align="center" hidden="true">id</th>
             <th field="orderid" width="130" align="center">订单编号</th>
-            <th field="groupid" width="130" align="center">经销商编号</th>
-            <th field="account" width="110" align="center">操作员</th>
+            <th field="groupname" width="220" align="center">经销商名称</th>
+            <th field="groupid" width="130" align="center" hidden="true">groupid</th>
+            <th field="account" width="110" align="center" hidden="true">操作员</th>
             <th field="username" width="110" align="center">客户姓名</th>
-            <th field="goods" width="120" align="center">商品</th>
+            <th field="goodsid" width="120" align="center" hidden="true">商品</th>
+            <th field="goodsname" width="120" align="center">商品名称</th>
             <th field="price" width="80" align="center">单价（元）</th>
+            <th field="gcount" width="10" align="center" hidden="true">gcount</th>
             <th field="count" width="80"  align="center">商品数量</th>
             <th field="amount" width="80"  align="center">订单总额</th>
             <th field="ddzt" width="80" formatter="formatIsSuc" align="center">订单状态</th>
@@ -295,8 +308,10 @@
                iconCls="icon-add" plain="true" onclick="addorder();">新增订单</a>
             <a href="javascript:void(0);" class="easyui-linkbutton"
                iconCls="icon-edit" plain="true" onclick="editorder();">编辑订单</a>
-
+            <!-- 定义一个打印区域 -->
+<%--            <input type ='button' value='打印' onclick='javascript:window.print()' />--%>
         </div>
+
     </div>
 
 
@@ -311,19 +326,69 @@
                 <tr>
                     <td align="right">商户名称:</td>
                     <td>
-                        <input id="groupid" name="groupid"  style="width: 180px" data-options="required:true"/>
+                        <input id="groupid" name="groupid"  class="easyui-combobox" style="width:180px"
+                               data-options="{
+                                url:'${path}/order/getgrounameByld',
+                                editable: false,
+                                cache: false,
+                                valueField:'groupid',
+                                textField:'groupname',
+                                onSelect:function(json)
+                                {
+                                    $('#goodsid').combobox('clear');// 清除原有项目
+                                    $('#price').combobox('clear');// 清除原有显示项目
+                                    $('#gcount').combobox('clear');// 清除原有项目
+                                    // 重新加载
+                                    $('#goodsid').combobox('reload','${path}/goods/getgoodsnameByld?groupid='+json.groupid);
+                                    $('#price').combobox('reload','${path}/goods/getgoodsnameByld'); //清理原有下拉项目
+                                    $('#gcount').combobox('reload','${path}/goods/getgoodsnameByld'); //清理原有下拉项目
+                                } }"/>
                     </td>
                 </tr>
                 <tr>
                     <td align="right">商品名称:</td>
                     <td>
-                        <input id="goods" name="goods"  style="width: 180px"  class="easyui-validatebox" required="true"/>
+                        <input id="goodsid" name="goodsid"  class="easyui-combobox" style="width:180px"
+                               data-options="{
+                                url:'${path}/goods/getgoodsnameByld',
+                                editable: false,
+                                cache: false,
+                                valueField:'goodsid',
+                                textField:'goodsname',
+                                onSelect:function(json)
+                                {
+                                 $('#price').combobox('clear');// 清除原有项目
+                                 $('#gcount').combobox('clear');// 清除原有项目
+                                    // 重新加载
+                                 $('#price').combobox('reload','${path}/goods/getgoodsnameByld?goodsid='+json.goodsid);
+                                 $('#gcount').combobox('reload','${path}/goods/getgoodsnameByld?goodsid='+json.goodsid);
+                                }   }"/>
                     </td>
                 </tr>
+
+                <tr id="gcnt">
+                    <td align="right">库存数量:</td>
+                    <td>
+                        <input id="gcount" name="gcount"  class="easyui-combobox" style="width:180px"
+                               data-options="{
+                                url:'${path}/goods/getgoodsnameByld',
+                                editable: false,
+                                cache: false,
+                                valueField:'count',
+                                textField:'count' }"/>
+                    </td>
+                </tr>
+
                 <tr>
                     <td align="right">商品单价(元):</td>
                     <td>
-                        <input id="price" name="price"  style="width: 180px"  class="easyui-validatebox" required="true"/>
+                        <input id="price" name="price" class="easyui-combobox" style="width:180px"
+                               data-options="{
+                                url:'${path}/goods/getgoodsnameByld',
+                                editable: false,
+                                cache: false,
+                                valueField:'price',
+                                textField:'price' }"/>
                     </td>
                 </tr>
                 <tr>

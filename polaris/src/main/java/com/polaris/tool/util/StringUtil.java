@@ -3,6 +3,7 @@ package com.polaris.tool.util;
 import sun.misc.BASE64Encoder;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -229,6 +230,19 @@ public class StringUtil {
         SimpleDateFormat sm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         rq = sm.format(new Date());
         return rq;
+    }
+
+    public static <T extends Number> BigDecimal dealmoney(T b1, T b2) {
+        if (null == b1 || null == b2) {
+            return BigDecimal.ZERO;
+        }
+        BigDecimal money=BigDecimal.valueOf(b1.doubleValue()).multiply(BigDecimal.valueOf(b2.doubleValue())).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return money;
+    }
+
+    public static String getgoodsId(String type,String groupid){
+        String goodsid =groupid+type+ (System.nanoTime() + "").substring(5, 10);
+        return goodsid;
     }
 
 }  

@@ -19,9 +19,10 @@
     </select>
 
     <select id="getOrderList" resultType="com.polaris.entity.Order">
-
-        SELECT a.id,a.orderid,a.groupid,a.price,a.amount,a.count,a.goods,a.readdress,a.account,a.username,a.phone,
-        a.tel,a.inserttime,a.ddzt,a.expressname,a.expressid,a.jsfs,a.jszt,a.endtime,a.aab301 FROM aa01 a
+        SELECT DISTINCT a.id,a.orderid,a.groupid,b.groupname,a.price,a.amount,a.count,a.goodsid,c.goodsname,c.count gcount,a.readdress,a.account,a.username,a.phone,
+        a.tel,a.inserttime,a.ddzt,a.expressname,a.expressid,a.jsfs,a.jszt,a.endtime,a.aab301
+        FROM aa01 a LEFT JOIN sysuser b ON  a.groupid=b.groupid
+        LEFT JOIN gg01 c ON a.goodsid=c.goodsid
         WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
         and a.ddzt like concat('%',#{ddzt},'%')
         <if test="inserttime != null and inserttime != ''">
@@ -33,97 +34,19 @@
         <if test="orderid != null and orderid != ''">
             and  a.orderid LIKE CONCAT('%',#{orderid},'%')
         </if>
-        order by id,orderid
     </select>
 
     <insert id="addOrder">
-        insert into aa01 (orderid,groupid,price,amount,count,goods,readdress,account,username,phone,tel,
+        insert into aa01 (orderid,groupid,price,amount,count,goodsid,readdress,account,username,phone,tel,
         inserttime,ddzt,jsfs,jszt,aab301)
-        values (#{orderid},#{groupid},#{price},#{amount},#{count},#{goods},#{readdress},#{account},#{username}
+        values (#{orderid},#{groupid},#{price},#{amount},#{count},#{goodsid},#{readdress},#{account},#{username}
         ,#{phone},#{tel},#{inserttime},#{ddzt},#{jsfs},#{jszt},#{aab301})
     </insert>
 
-<update id="editOrder" >
-  update aa01 set price=#{price},count=#{count},amount=#{amount},goods=#{goods},readdress=#{readdress},phone=#{phone}
-  ,tel=#{tel},jsfs=#{jsfs},jszt=#{jszt} where id=#{id}
+    <update id="editOrder" >
+      update aa01 set count=#{count},amount=#{amount},readdress=#{readdress},phone=#{phone}
+      ,tel=#{tel},jsfs=#{jsfs},jszt=#{jszt},username=#{username} where id=#{id}
 
-</update>
+    </update>
 
-
-
-
-
-    <select id="selectDynamicSql" resultType="java.util.HashMap">
-          ${sql1}
-	</select>
-
-    <select id="selectPageDisplay" resultType="java.util.HashMap">
-        SELECT  sum(payMoney)/100 as totalAmount,
-                sum(sucflag=1) *100/ count(1) as successRate,
-                sum(channelcharge)/(sum(sucflag=1)*100) as singleCost
-        FROM ncmpi_order_consume
-        <where>
-            <if test="insertTime != null and insertTime != ''">
-                <![CDATA[and  insertTime > #{insertTime} ]]>
-            </if>
-            <if test="finalTime != null and finalTime != ''">
-                <![CDATA[ and  insertTime < #{finalTime} ]]>
-            </if>
-            <if test="fcOrderid != null and fcOrderid != ''">
-                and fcOrderid = #{fcOrderid}
-            </if>
-            <if test="fullName != null and fullName != ''">
-                and fullName = #{fullName}
-            </if>
-            <if test="phone != null and phone != ''">
-                and phone = #{phone}
-            </if>
-            <if test="cardNo != null and cardNo != ''">
-                and cardNo = #{cardNo}
-            </if>
-
-            <if test="payOrderid != null and payOrderid != ''">
-                and payOrderid = #{payOrderid}
-            </if>
-            <if test="idCard != null and idCard != ''">
-                and idCard = #{idCard}
-            </if>
-            <if test="cardBankName != null and cardBankName != ''">
-                and cardBankName like concat('%',#{cardBankName},'%')
-            </if>
-            <if test="payMoney != null and payMoney != ''">
-                and payMoney = #{payMoney}*100
-            </if>
-            <if test="dealChannel != null and dealChannel != ''">
-                and dealChannel = #{dealChannel}
-            </if>
-            <if test="sucFlag != null and sucFlag != ''">
-                and sucFlag = #{sucFlag}
-            </if>
-            <if test="sourceSubchannel != null and sourceSubchannel != ''">
-                and sourcesubchannel = #{sourceSubchannel}
-            </if>
-
-            <if test="cardType != null and cardType != ''">
-                and cardType = #{cardType}
-            </if>
-            <if test="payMoneyBottom != null and payMoneyBottom != ''">
-                <![CDATA[ and payMoney  >= #{payMoneyBottom}*100 ]]>
-            </if>
-            <if test="payMoneyTop != null and payMoneyTop != ''">
-                <![CDATA[ and  payMoney <= #{payMoneyTop}*100 ]]>
-            </if>
-        </where>
-    </select>
-
-    <select id="selectDealChannel" resultType="com.polaris.entity.Order">
-        select DISTINCT dealChannel
-        from route_channel
-        where orderAction = '消费'
-        and isdel=0
-        order by dealChannel
-    </select>
-
-
-    
 </mapper>

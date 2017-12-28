@@ -98,10 +98,12 @@
         <tr>
             <th field="id" width="130" align="center" hidden="true">id</th>
             <th field="orderid" width="130" align="center">订单编号</th>
-            <th field="groupid" width="130" align="center">经销商编号</th>
-            <th field="account" width="110" align="center">操作员</th>
+            <th field="groupname" width="220" align="center">经销商名称</th>
+            <th field="groupid" width="130" align="center" hidden="true">groupid</th>
+            <th field="account" width="110" align="center" hidden="true">操作员</th>
             <th field="username" width="110" align="center">客户姓名</th>
-            <th field="goods" width="120" align="center">商品</th>
+            <th field="goodsid" width="120" align="center" hidden="true">商品</th>
+            <th field="goodsname" width="120" align="center">商品名称</th>
             <th field="price" width="80" align="center">单价（元）</th>
             <th field="count" width="80"  align="center">商品数量</th>
             <th field="amount" width="80"  align="center">订单总额</th>

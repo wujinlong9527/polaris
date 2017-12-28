@@ -1,5 +1,8 @@
 package com.polaris.controller;
 
+
+import com.polaris.service.IGoodsService;
+import net.sf.json.JSONArray;
 import com.polaris.entity.Order;
 import com.polaris.entity.SysGroup;
 import com.polaris.entity.User;
@@ -45,6 +48,9 @@ public class OrderController {
 
     @Resource
     private IUserService userService;
+
+    @Resource
+    private IGoodsService goodsService;
 
     @Resource
     private ISysGroupService sysGroupService;
@@ -99,7 +105,6 @@ public class OrderController {
         return dg;
     }
 
-
     @ResponseBody
     @RequestMapping(value = "/order/getgrouname", method = RequestMethod.POST)
     public JSONObject getgrouname(Order order ,HttpServletRequest request) {
@@ -122,6 +127,31 @@ public class OrderController {
     }
 
 
+
+    @ResponseBody
+    @RequestMapping(value = "/order/getgrounameByld", method = RequestMethod.POST)
+    public JSONArray getgrounameByld(Order order ,HttpServletRequest request) {
+        JSONObject json = new JSONObject();
+        JSONArray array = new JSONArray();
+        try {
+            SysGroup sysGroup = null;
+            List<SysGroup> list = sysGroupService.getGroupListByid(sysGroup);
+            if(list.size()>0){
+              for(SysGroup s:list){
+                  json.put("groupid",s.getGroupid());
+                  json.put("groupname",s.getGroupname());
+                  array.add(json);
+              }
+            }else{
+                return null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return array;
+    }
+
+
     /**
      * 新增订单
      * @return Json
@@ -136,6 +166,7 @@ public class OrderController {
             order.setAccount(account);
             BigDecimal money = dealmoney(BigDecimal.valueOf(order.getPrice()),order.getCount());
             String rq = StringUtil.getrq();
+            int  count= order.getGcount()-order.getCount();
             if (order.getId() == 0) {
                 order.setInserttime(rq);
                 order.setOrderid(StringUtil.getId());
@@ -143,6 +174,7 @@ public class OrderController {
                 order.setAmount(String.valueOf(money));
                 int flag = orderService.addOrder(order);
                 if(flag==0){
+                    goodsService.updateGoodsCount(count,order.getGoodsid());
                     j.setSuccess(true);
                     j.setMsg("新增订单成功！");
                 }else {
@@ -153,6 +185,7 @@ public class OrderController {
                 order.setAmount(String.valueOf(money));
                 int flag=orderService.editOrder(order);
                 if(flag==0){
+                    goodsService.updateGoodsCount(count,order.getGoodsid());
                     j.setSuccess(true);
                     j.setMsg("修改订单成功！");
                 }else {

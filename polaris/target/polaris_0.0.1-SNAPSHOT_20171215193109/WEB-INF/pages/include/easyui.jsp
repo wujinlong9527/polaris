@@ -23,4 +23,5 @@
 <!-- 引入自己的js -->
 <script src="${path}/js/main.js" type="text/javascript"></script>
 
+<script src="${path}/js/jquery.jqprint-0.3.js" type="text/javascript"></script>
 <script src="${path}/js/jquery-easyui-1.4/datagrid-detailview.js" type="text/javascript"></script>
