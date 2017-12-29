@@ -239,8 +239,6 @@
         }
 
 
-
-
     </script>
 
 </head>
@@ -308,8 +306,6 @@
                iconCls="icon-add" plain="true" onclick="addorder();">新增订单</a>
             <a href="javascript:void(0);" class="easyui-linkbutton"
                iconCls="icon-edit" plain="true" onclick="editorder();">编辑订单</a>
-            <!-- 定义一个打印区域 -->
-<%--            <input type ='button' value='打印' onclick='javascript:window.print()' />--%>
         </div>
 
     </div>
@@ -454,6 +450,7 @@
 
 
 </div>
+
 
 </body>
 </html>

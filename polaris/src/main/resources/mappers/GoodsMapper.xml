@@ -66,6 +66,6 @@
     </delete>
 
     <update id="updateGoodsCount" >
-        update gg01 set count=#{count} where goodsid = #{goodsid}
+        update gg01 set count=#{count} where goodsid = #{goodsid} and count>0
     </update>
 </mapper>

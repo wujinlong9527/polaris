@@ -1,0 +1,10 @@
+
+*{margin: 0;padding: 0;}
+.body_bg{background: url(../images/wood_pattern.png) no-repeat; background-size: 100%;}
+.main{background: #FFF;width: 300px; height: 200px;margin: 250px auto 0 auto;border-radius: 10px;}
+.main input{-webkit-appearance: none;outline: none;}
+.main>div{width: 100%; }
+.main>div{text-align: center;}
+.name>input{width: 70%;border: 1px solid #C6C6C6;margin-top: 30px;height: 35px;background: url(../images/yhp.png) no-repeat left 5px center;background-size: 20px; padding-left: 30px;border-radius: 5px;}
+.pwd>input{width: 70%;border: 1px solid #C6C6C6;margin-top: 20px;height: 35px;background: url(../images/pwp.png) no-repeat left 5px center;background-size: 20px; padding-left: 30px;border-radius: 5px;}
+.btn>input{background: #3574CA;border: none;width: 80px;height: 30px;font-size: 20px;color: #FFFFFF;border-radius: 3px;margin-top: 25px;}

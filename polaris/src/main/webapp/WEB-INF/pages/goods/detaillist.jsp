@@ -34,6 +34,8 @@
                 $.messager.alert("提示","开始日期不能大于结束日期！","warning")
                 return;
             }
+          //  document.getElementById("iframeId").src="${path}/ReportServer?reportlet=/goods/1.cpt"; //调用finereport
+
             $("#datagrid").datagrid("options").url = "${path}/goods/datagrid?" + $("#fmorder").serialize();
             $("#datagrid").datagrid("load");
 
@@ -73,7 +75,6 @@
     </table>
 
     <!-- 按钮 -->
-
     <div id="toolbar" class="easyui-layout"
          style="width:100%;padding-top:6px;padding-bottom: 6px;padding-left: 6px;padding-right: 6px">
         <form id="fmorder" name="fmorder" method="post">
@@ -95,10 +96,13 @@
                    iconCls="icon-reload" plain="true" onclick="onReset();" >重置</a>
             </div>
         </form>
-
     </div>
+<%--
+    <iframe id="iframeId" src="" height="410" width="100%"  scrolling="yes" frameborder="0"></iframe>
+--%>
 
 </div>
 
 </body>
+
 </html>
