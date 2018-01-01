@@ -143,6 +143,16 @@ public class Order extends PageHelper {
 
     private Integer gcount;
 
+    private String sfqr;
+
+    public String getSfqr() {
+        return sfqr;
+    }
+
+    public void setSfqr(String sfqr) {
+        this.sfqr = sfqr;
+    }
+
     public Integer getGcount() {
         return gcount;
     }
@@ -447,6 +457,7 @@ public class Order extends PageHelper {
                 ", gtype='" + gtype + '\'' +
                 ", gtypename='" + gtypename + '\'' +
                 ", gcount='" + gcount + '\'' +
+                ", sfqr='" + sfqr + '\'' +
                 '}';
     }
 }

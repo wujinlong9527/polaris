@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.polaris.mapper.polaris.OrderMapper">
+
+
+    <select id="getOrderCount" resultType="java.lang.Long">
+        SELECT count(1) FROM aa01 a
+        WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
+        and a.ddzt like concat('%',#{ddzt},'%')
+        <if test="inserttime != null and inserttime != ''">
+            <![CDATA[and  a.inserttime >= #{inserttime} ]]>
+        </if>
+        <if test="finaltime != null and finaltime != ''">
+            <![CDATA[and  a.inserttime < #{finaltime} ]]>
+        </if>
+        <if test="orderid != null and orderid != ''">
+            and  a.orderid LIKE CONCAT('%',#{orderid},'%')
+        </if>
+    </select>
+
+    <select id="getOrderList" resultType="com.polaris.entity.Order">
+        SELECT DISTINCT a.id,a.orderid,a.groupid,b.groupname,a.price,a.amount,a.count,a.goodsid,c.goodsname,c.count gcount,a.readdress,a.account,a.username,a.phone,
+        a.tel,a.inserttime,a.ddzt,a.expressname,a.expressid,a.jsfs,a.jszt,a.endtime,a.aab301
+        FROM aa01 a LEFT JOIN sysuser b ON  a.groupid=b.groupid
+        LEFT JOIN gg01 c ON a.goodsid=c.goodsid
+        WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
+        and a.ddzt like concat('%',#{ddzt},'%')
+        <if test="inserttime != null and inserttime != ''">
+            <![CDATA[and  a.inserttime >= #{inserttime} ]]>
+        </if>
+        <if test="finaltime != null and finaltime != ''">
+            <![CDATA[and  a.inserttime < #{finaltime} ]]>
+        </if>
+        <if test="orderid != null and orderid != ''">
+            and  a.orderid LIKE CONCAT('%',#{orderid},'%')
+        </if>
+    </select>
+
+    <insert id="addOrder">
+        insert into aa01 (orderid,groupid,price,amount,count,goodsid,readdress,account,username,phone,tel,
+        inserttime,ddzt,jsfs,jszt,aab301)
+        values (#{orderid},#{groupid},#{price},#{amount},#{count},#{goodsid},#{readdress},#{account},#{username}
+        ,#{phone},#{tel},#{inserttime},#{ddzt},#{jsfs},#{jszt},#{aab301})
+    </insert>
+
+    <update id="editOrder" >
+      update aa01 set count=#{count},amount=#{amount},readdress=#{readdress},phone=#{phone}
+      ,tel=#{tel},jsfs=#{jsfs},jszt=#{jszt},username=#{username} where id=#{id}
+
+    </update>
+
+</mapper>

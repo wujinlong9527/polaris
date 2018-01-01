@@ -13,6 +13,7 @@
         <if test="goodsid != null and goodsid != ''">
             and goodsid LIKE CONCAT('%',#{goodsid},'%')
         </if>
+
     </select>
 
     <select id="getGoodsList" resultType="com.polaris.entity.Goods">
@@ -28,11 +29,13 @@
         <if test="goodsid != null and goodsid != ''">
            and a.goodsid LIKE CONCAT('%',#{goodsid},'%')
         </if>
+
+        order by a.gtype,a.count
     </select>
 
     <insert id="addGoods">
-        insert into gg01 (groupid,goodsid,price,count,goodsname,inserttime,gtype)
-        values (#{groupid},#{goodsid},#{price},#{count},#{goodsname},#{inserttime},#{gtype})
+        insert into gg01 (groupid,goodsid,price,count,goodsname,inserttime,gtype,gtypename)
+        values (#{groupid},#{goodsid},#{price},#{count},#{goodsname},#{inserttime},#{gtype},#{gtypename})
     </insert>
 
     <update id="editGoods" >

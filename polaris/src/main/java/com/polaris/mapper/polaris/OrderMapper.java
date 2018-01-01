@@ -4,6 +4,7 @@
 package com.polaris.mapper.polaris;
 
 import com.polaris.entity.Order;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -29,4 +30,6 @@ public interface OrderMapper {
     public int addOrder(Order order);
 
     public int editOrder(Order order);
+
+    public int makeorder(@Param("id") long id);
 }

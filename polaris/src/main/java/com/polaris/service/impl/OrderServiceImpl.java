@@ -59,4 +59,15 @@ public class OrderServiceImpl implements IOrderService {
         }
         return ret;
     }
+
+    public int makeorder(long id){
+        int ret = 0;
+        try {
+            orderMapper.makeorder(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret=9;
+        }
+        return ret;
+    }
 }

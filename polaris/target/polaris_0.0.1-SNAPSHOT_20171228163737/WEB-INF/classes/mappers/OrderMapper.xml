@@ -16,11 +16,14 @@
         <if test="orderid != null and orderid != ''">
             and  a.orderid LIKE CONCAT('%',#{orderid},'%')
         </if>
+        <if test="sfqr != null and sfqr != ''">
+            and  a.sfqr LIKE CONCAT('%',#{sfqr},'%')
+        </if>
     </select>
 
     <select id="getOrderList" resultType="com.polaris.entity.Order">
         SELECT DISTINCT a.id,a.orderid,a.groupid,b.groupname,a.price,a.amount,a.count,a.goodsid,c.goodsname,c.count gcount,a.readdress,a.account,a.username,a.phone,
-        a.tel,a.inserttime,a.ddzt,a.expressname,a.expressid,a.jsfs,a.jszt,a.endtime,a.aab301
+        a.tel,a.inserttime,a.ddzt,a.expressname,a.expressid,a.jsfs,a.jszt,a.endtime,a.aab301,a.sfqr
         FROM aa01 a LEFT JOIN sysuser b ON  a.groupid=b.groupid
         LEFT JOIN gg01 c ON a.goodsid=c.goodsid
         WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
@@ -34,13 +37,16 @@
         <if test="orderid != null and orderid != ''">
             and  a.orderid LIKE CONCAT('%',#{orderid},'%')
         </if>
+        <if test="sfqr != null and sfqr != ''">
+            and  a.sfqr LIKE CONCAT('%',#{sfqr},'%')
+        </if>
     </select>
 
     <insert id="addOrder">
         insert into aa01 (orderid,groupid,price,amount,count,goodsid,readdress,account,username,phone,tel,
-        inserttime,ddzt,jsfs,jszt,aab301)
+        inserttime,ddzt,jsfs,jszt,aab301,sfqr)
         values (#{orderid},#{groupid},#{price},#{amount},#{count},#{goodsid},#{readdress},#{account},#{username}
-        ,#{phone},#{tel},#{inserttime},#{ddzt},#{jsfs},#{jszt},#{aab301})
+        ,#{phone},#{tel},#{inserttime},#{ddzt},#{jsfs},#{jszt},#{aab301},'2')
     </insert>
 
     <update id="editOrder" >
@@ -49,4 +55,7 @@
 
     </update>
 
+    <update id="makeorder" parameterType="Long">
+        UPDATE aa01 SET sfqr='1' where id=#{id}
+    </update>
 </mapper>

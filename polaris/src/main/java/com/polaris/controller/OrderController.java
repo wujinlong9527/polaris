@@ -69,6 +69,12 @@ public class OrderController {
     public String OrderaddList(Model model, String menu_button) {
         return "order/addlist";
     }
+
+    @RequestMapping(value = "/order/confirmorder", method = RequestMethod.GET)
+    public String confirmorder(Model model, String menu_button) {
+        return "order/confirmorder";
+    }
+
     /**
      * 用户表格
      * @return DataGrid
@@ -95,6 +101,9 @@ public class OrderController {
             }
             if("全部".equals(order.getDdzt())) {
                 order.setDdzt("");
+            }
+            if("全部".equals(order.getSfqr())) {
+                order.setSfqr("");
             }
             dg.setTotal(orderService.getOrderCount(order));
             List<Order> orderList = orderService.getOrderList(order);
@@ -207,5 +216,32 @@ public class OrderController {
         }
         BigDecimal money=BigDecimal.valueOf(b1.doubleValue()).multiply(BigDecimal.valueOf(b2.doubleValue())).setScale(2, BigDecimal.ROUND_HALF_UP);
         return money;
+    }
+
+
+    /**
+     * 确认订单
+     * @return Json
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order/confirmorder", method = RequestMethod.POST)
+    public Json confirmorder(Order order,HttpServletRequest request) {
+        Json j = new Json();
+        try {
+            int flag = orderService.makeorder(order.getId());
+            if(flag==0){
+                j.setSuccess(true);
+                j.setMsg("确认订单成功！");
+            }else {
+                j.setSuccess(false);
+                j.setMsg("确认订单失败！");
+            }
+            j.setObj(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
     }
 }

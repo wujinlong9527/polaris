@@ -65,6 +65,11 @@ public class GoodsController {
         return "goods/detaillist";
     }
 
+    @RequestMapping(value = "/goods/test", method = RequestMethod.GET)
+    public String test(Model model, String menu_button) {
+        return "goods/test";
+    }
+
     /**
      * 用户表格
      * @return DataGrid

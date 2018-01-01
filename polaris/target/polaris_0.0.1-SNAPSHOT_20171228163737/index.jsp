@@ -1,13 +1,12 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/pages/include/easyui.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<input>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>异地总线接口</title>
 </head>
-<body>
-
  欢迎光临！
 <br/>
 <br/>
@@ -20,10 +19,31 @@
 		</tr>
 	</table>
 </form>
+
+<input id="test" type="button" value="测试音乐" onclick="palyer()"/>
+
 </body>
 
+
+
 <script type="text/javascript">
-	
+
+
+		function palyer(){
+			$("#test").audioPlay({
+				urlMp3: "${path}/media/1.mp3",
+				//	urlOgg: "${path}/media/beep.ogg",
+				clone: true
+			});
+		}
+
+
+
+
+
+
+
+
 	function sub(){
 		  var count = 0;
 		  var data = {"count":encodeURIComponent(count)};

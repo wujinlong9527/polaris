@@ -27,4 +27,6 @@ public interface IOrderService {
     public int addOrder(Order order);
 
     public int editOrder(Order order);
+
+    public int makeorder(long id);
 }

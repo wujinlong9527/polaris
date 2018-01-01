@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fsconfig xmlVersion="20151125" releaseVersion="8.0.0" useFS="false" mobileDeviceBinding="false">
-<systemManagerFavoriteAndADHOCReport/>
+<systemManagerFavoriteAndADHOCReport>
+<sysFavorite>
+<Parameters/>
+<DSName>
+<![CDATA[]]></DSName>
+<ColumnNames>
+<![CDATA[id,,.,,type,,.,,entryid]]></ColumnNames>
+<ColumnTypes>
+<![CDATA[java.lang.String,java.lang.Integer,java.lang.String]]></ColumnTypes>
+</sysFavorite>
+</systemManagerFavoriteAndADHOCReport>
 <AuthenticateObjectType class="com.fr.fs.auth.DefaultAuthenticateObjectType"/>
-<SystemAttr isLoginPageImg="false" isBackgroundImg="true" backgroundColor="0" bannerType="2"/>
+<SystemAttr isLoginPageImg="false" isBackgroundImg="true" backgroundColor="0" customBackgroundColor="rgb(38,77,132)" bannerType="2"/>
 <AuthorizeAttr gradeAuthority="false" editReportAuthority="false" dataConnectionAuthority="false"/>
 <UerDataControl type="0"/>
 <fstheme name="default"/>
 <SystemStyle colorScheme="0"/>
-<AutoBackupTimerAttr name="autoBackup" isStart="true" nextStartDate="2017.12.31 17.16.09" frequency="7"/>
+<AutoBackupTimerAttr name="autoBackup" isStart="true" nextStartDate="2018.01.07 17.16.09" frequency="7"/>
 <DatabaseAdapterAttr/>
 </fsconfig>
