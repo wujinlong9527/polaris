@@ -47,16 +47,6 @@
             $("#datagrid").datagrid("load");
         }
 
-        //格式换显示状态
-        function formatdata(val, row) {
-            return '<a class="editcls"  onclick="editRow(\'' + row.id + '\')" href="javascript:void(0)">查看</a>';
-        }
-
-        function editRow(id) {
-            $('#iframe1')[0].src = '${path}/goods/test?id=' + id;
-            $('#openRoleDiv').dialog('open');
-        }
-
     </script>
 
 </head>
@@ -78,7 +68,6 @@
             <th field="inserttime" width="140" align="center">新增日期</th>
             <th field="gtype" width="140" align="center" hidden="true">gtype</th>
             <th field="gtypename" width="140" align="center" >商品类别</th>
-<%--            <th field="opt" width="140" formatter="formatdata" >opt</th>--%>
         </tr>
         </thead>
     </table>
@@ -109,10 +98,6 @@
 
     </div>
 
-    <div id="openRoleDiv" class="easyui-dialog" closed="true" modal="true" title="信息"
-         style="width:500px;height:400px;">
-        <iframe scrolling="auto" id='iframe1' frameborder="0" style="width:100%;height:100%;"></iframe>
-    </div>
 </div>
 
 </body>

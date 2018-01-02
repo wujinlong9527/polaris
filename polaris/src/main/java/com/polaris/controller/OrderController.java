@@ -1,17 +1,17 @@
 package com.polaris.controller;
 
 
-import com.polaris.service.IGoodsService;
-import net.sf.json.JSONArray;
 import com.polaris.entity.Order;
 import com.polaris.entity.SysGroup;
 import com.polaris.entity.User;
+import com.polaris.service.IGoodsService;
 import com.polaris.service.IOrderService;
 import com.polaris.service.ISysGroupService;
 import com.polaris.service.IUserService;
 import com.polaris.tool.easyui.DataGrid;
 import com.polaris.tool.easyui.Json;
 import com.polaris.tool.util.StringUtil;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,6 +75,11 @@ public class OrderController {
         return "order/confirmorder";
     }
 
+    @RequestMapping(value = "/order/printck", method = RequestMethod.GET)
+    public String printck(Model model, String id) {
+        model.addAttribute("id",id);
+        return "order/printck";
+    }
     /**
      * 用户表格
      * @return DataGrid
@@ -113,6 +118,54 @@ public class OrderController {
         }
         return dg;
     }
+
+
+
+
+    /**
+     * 出库确认用户表格
+     * @return DataGrid
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order/datagridck", method = RequestMethod.POST)
+    public DataGrid datagridck(Order order ,HttpServletRequest request) {
+        String account= request.getSession().getAttribute("user").toString();
+        List<User> list= userService.getgroupname(account);
+        String groupid = "";
+        for(User user:list){
+            groupid = user.getGroupid();
+        }
+        if(groupid.equals("888888")){
+            account="";
+        }
+        order.setAccount(account);
+        DataGrid dg = new DataGrid();
+        try {
+            if ((order.getFinaltime() != null) && (order.getFinaltime() != "")
+                    && (10 == order.getFinaltime().length())) {
+                order.setFinaltime(order.getFinaltime() + " 23:59:59");
+            }
+            if("全部".equals(order.getDdzt())) {
+                order.setDdzt("");
+            }
+            if("全部".equals(order.getSfqr())) {
+                order.setSfqr("");
+            }
+            if("全部".equals(order.getCkqr())) {
+                order.setCkqr("");
+            }
+            dg.setTotal(orderService.getOrderCountck(order));
+            List<Order> orderList = orderService.getOrderListck(order);
+            dg.setRows(orderList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dg;
+    }
+
+
+
 
     @ResponseBody
     @RequestMapping(value = "/order/getgrouname", method = RequestMethod.POST)
@@ -236,6 +289,32 @@ public class OrderController {
             }else {
                 j.setSuccess(false);
                 j.setMsg("确认订单失败！");
+            }
+            j.setObj(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
+    }
+
+    /**
+     * 确认订单
+     * @return Json
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order/confirmgoods", method = RequestMethod.POST)
+    public Json confirmgoods(Order order,HttpServletRequest request) {
+        Json j = new Json();
+        try {
+            int flag = orderService.makeorderck(order.getId());
+            if(flag==0){
+                j.setSuccess(true);
+                j.setMsg("出库确认成功！");
+            }else {
+                j.setSuccess(false);
+                j.setMsg("出库确认失败！");
             }
             j.setObj(order);
         } catch (Exception e) {

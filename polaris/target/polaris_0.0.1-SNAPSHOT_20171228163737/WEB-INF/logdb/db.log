@@ -1,0 +1,33 @@
+/*C13*/SET SCHEMA PUBLIC
+CONNECT USER SA
+DISCONNECT
+/*C14*/SET SCHEMA PUBLIC
+CONNECT USER SA
+DISCONNECT
+/*C15*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C16*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C17*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C18*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C19*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C20*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C21*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C22*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C23*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C24*/SET SCHEMA PUBLIC
+CONNECT USER SA
+SET LOGSIZE 5
+SET AUTOCOMMIT FALSE
+/*C23*/SET AUTOCOMMIT FALSE
+SET AUTOCOMMIT TRUE
+/*C24*/SET AUTOCOMMIT TRUE
+INSERT INTO FR_EXERECORD VALUES(135,'/goods/ckd.cpt',0,'__LOCALE__ : zh_CN[java.util.Locale], __STREAMCLOSED__ : [java.lang.String], COM.ALIBABA.LASTPAGE : L3BvbGFyaXMv\u000d\u000a[java.lang.String], ENCODINGFILTER.FILTERED : true[java.lang.String], ID : 10[java.lang.String], ORG.SPRINGFRAMEWORK.WEB.CONTEXT.REQUEST.ASYNC.WEBASYNCMANAGER.WEB_ASYNC_MANAGER : org.springframework.web.context.request.async.WebAsyncManager@7043bdf3[java.lang.String], REPORTLET : /goods/ckd.cpt[java.lang.String], REPORTNAME : /goods/ckd.cpt[java.lang.String], USER : admin[java.lang.String], USERID : 20[java.lang.Integer], USERNAME : admin[java.lang.String]','localhost','\u672a\u767b\u5f55\u7528\u6237','\u672a\u77e5\u89d2\u8272',378,'2018-01-02 15:47:56.063000000','[ sql : SELECT a.orderid,b.gtypename,b.goodsname,a.count,a.price,a.amount,a.readdress,b.goodsid FROM aa01 a LEFT JOIN gg01 b ON a.goodsid=b.goodsid where a.id=10 ; rowcount : 1 ; time : 2018-01-02 15:47:55 ;]\u000a','{"Agent":"mozilla/5.0 (windows nt 6.1; wow64) applewebkit/537.36 (khtml, like gecko) chrome/61.0.3163.79 safari/537.36","Version":"537.36","BoxModel":true,"Browser":"webkit"}',17600)
+INSERT INTO FR_EXERECORD VALUES(136,'/goods/ckd.cpt',0,'__LOCALE__ : zh_CN[java.util.Locale], __STREAMCLOSED__ : [java.lang.String], COM.ALIBABA.LASTPAGE : L3BvbGFyaXMv\u000d\u000a[java.lang.String], ENCODINGFILTER.FILTERED : true[java.lang.String], ID : 10[java.lang.String], ORG.SPRINGFRAMEWORK.WEB.CONTEXT.REQUEST.ASYNC.WEBASYNCMANAGER.WEB_ASYNC_MANAGER : org.springframework.web.context.request.async.WebAsyncManager@65867763[java.lang.String], REPORTLET : /goods/ckd.cpt[java.lang.String], REPORTNAME : /goods/ckd.cpt[java.lang.String], USER : admin[java.lang.String], USERID : 20[java.lang.Integer], USERNAME : admin[java.lang.String]','localhost','\u672a\u767b\u5f55\u7528\u6237','\u672a\u77e5\u89d2\u8272',33,'2018-01-02 15:49:14.418000000','[ sql : SELECT a.orderid,b.gtypename,b.goodsname,a.count,a.price,a.amount,a.readdress,b.goodsid FROM aa01 a LEFT JOIN gg01 b ON a.goodsid=b.goodsid where a.id=10 ; rowcount : 1 ; time : 2018-01-02 15:49:14 ;]\u000a','{"Agent":"mozilla/5.0 (windows nt 6.1; wow64) applewebkit/537.36 (khtml, like gecko) chrome/61.0.3163.79 safari/537.36","Version":"537.36","BoxModel":true,"Browser":"webkit"}',17600)

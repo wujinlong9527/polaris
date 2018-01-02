@@ -145,6 +145,26 @@ public class Order extends PageHelper {
 
     private String sfqr;
 
+    private String ckqr;
+
+    private String ddbz;
+
+    public String getDdbz() {
+        return ddbz;
+    }
+
+    public void setDdbz(String ddbz) {
+        this.ddbz = ddbz;
+    }
+
+    public String getCkqr() {
+        return ckqr;
+    }
+
+    public void setCkqr(String ckqr) {
+        this.ckqr = ckqr;
+    }
+
     public String getSfqr() {
         return sfqr;
     }
@@ -458,6 +478,8 @@ public class Order extends PageHelper {
                 ", gtypename='" + gtypename + '\'' +
                 ", gcount='" + gcount + '\'' +
                 ", sfqr='" + sfqr + '\'' +
+                ", ckqr='" + ckqr + '\'' +
+                ", ddbz='" + ddbz + '\'' +
                 '}';
     }
 }

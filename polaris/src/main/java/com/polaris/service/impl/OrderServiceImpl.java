@@ -38,6 +38,20 @@ public class OrderServiceImpl implements IOrderService {
         return orderMapper.getOrderCount(order);
     }
 
+    public List<Order> getOrderListck(Order order) {
+        List<Order> list = new ArrayList<Order>();
+        try {
+            list = orderMapper.getOrderListck(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Long getOrderCountck(Order order){
+        return orderMapper.getOrderCountck(order);
+    }
+
     public int addOrder(Order order){
         int ret = 0;
         try {
@@ -64,6 +78,17 @@ public class OrderServiceImpl implements IOrderService {
         int ret = 0;
         try {
             orderMapper.makeorder(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret=9;
+        }
+        return ret;
+    }
+
+    public int makeorderck(long id){
+        int ret = 0;
+        try {
+            orderMapper.makeorderck(id);
         }catch (Exception e){
             e.printStackTrace();
             ret=9;

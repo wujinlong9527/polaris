@@ -65,9 +65,9 @@ public class GoodsController {
         return "goods/detaillist";
     }
 
-    @RequestMapping(value = "/goods/test", method = RequestMethod.GET)
-    public String test(Model model, String menu_button) {
-        return "goods/test";
+    @RequestMapping(value = "/goods/confirmgoods", method = RequestMethod.GET)
+    public String confirmgoods(Model model, String menu_button) {
+        return "goods/confirmgoods";
     }
 
     /**

@@ -24,9 +24,15 @@ public interface IOrderService {
 
     public Long getOrderCount(Order order);
 
+    public List<Order> getOrderListck(Order order);
+
+    public Long getOrderCountck(Order order);
+
     public int addOrder(Order order);
 
     public int editOrder(Order order);
 
     public int makeorder(long id);
+
+    public int makeorderck(long id);
 }

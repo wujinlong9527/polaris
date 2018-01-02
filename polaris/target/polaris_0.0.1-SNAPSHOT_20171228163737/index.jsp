@@ -47,7 +47,7 @@
 	function sub(){
 		  var count = 0;
 		  var data = {"count":encodeURIComponent(count)};
-		  document.getElementById("iframeId").src="<%= request.getContextPath() %>/ReportServer?reportlet=/goods/1.cpt";
+		  document.getElementById("iframeId").src="<%= request.getContextPath() %>/ReportServer?reportlet=/goods/ckd.cpt";
 
 		/*	       $.ajax({
                      url: "${pageContext.request.contextPath}/ydzx/sendmsg",
