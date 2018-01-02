@@ -281,8 +281,9 @@ public class OrderController {
     @RequestMapping(value = "/order/confirmorder", method = RequestMethod.POST)
     public Json confirmorder(Order order,HttpServletRequest request) {
         Json j = new Json();
+        String account = request.getSession().getAttribute("user").toString();
         try {
-            int flag = orderService.makeorder(order.getId());
+            int flag = orderService.makeorder(order.getId(),account);
             if(flag==0){
                 j.setSuccess(true);
                 j.setMsg("确认订单成功！");
@@ -307,8 +308,9 @@ public class OrderController {
     @RequestMapping(value = "/order/confirmgoods", method = RequestMethod.POST)
     public Json confirmgoods(Order order,HttpServletRequest request) {
         Json j = new Json();
+        String account = request.getSession().getAttribute("user").toString();
         try {
-            int flag = orderService.makeorderck(order.getId());
+            int flag = orderService.makeorderck(order.getId(),account);
             if(flag==0){
                 j.setSuccess(true);
                 j.setMsg("出库确认成功！");

@@ -32,7 +32,7 @@ public interface IOrderService {
 
     public int editOrder(Order order);
 
-    public int makeorder(long id);
+    public int makeorder(long id,String account);
 
-    public int makeorderck(long id);
+    public int makeorderck(long id,String account);
 }

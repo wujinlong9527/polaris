@@ -46,7 +46,7 @@
     <select id="getOrderCountck" resultType="java.lang.Long">
         SELECT count(1) FROM aa01 a
         WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
-        and a.ddzt like concat('%',#{ddzt},'%')
+        and a.ddzt like concat('%',#{ddzt},'%') and a.sfqr='1'
         <if test="inserttime != null and inserttime != ''">
             <![CDATA[and  a.inserttime >= #{inserttime} ]]>
         </if>
@@ -67,7 +67,7 @@
         FROM aa01 a LEFT JOIN sysuser b ON  a.groupid=b.groupid
         LEFT JOIN gg01 c ON a.goodsid=c.goodsid
         WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
-        and a.ddzt like concat('%',#{ddzt},'%')
+        and a.ddzt like concat('%',#{ddzt},'%') and a.sfqr='1'
         <if test="inserttime != null and inserttime != ''">
             <![CDATA[and  a.inserttime >= #{inserttime} ]]>
         </if>
@@ -96,11 +96,11 @@
 
     </update>
 
-    <update id="makeorder" parameterType="Long">
-        UPDATE aa01 SET sfqr='1' where id=#{id}
+    <update id="makeorder" >
+        UPDATE aa01 SET sfqr='1',ddqry=#{account} where id=#{id}
     </update>
 
-    <update id="makeorderck" parameterType="Long">
-        UPDATE aa01 SET ckqr='1',ddbz='02' where id=#{id}
+    <update id="makeorderck" >
+        UPDATE aa01 SET ckqr='1',ddbz='02',ckqry=#{account} where id=#{id}
     </update>
 </mapper>

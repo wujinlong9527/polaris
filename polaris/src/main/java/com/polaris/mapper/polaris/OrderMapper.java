@@ -35,7 +35,7 @@ public interface OrderMapper {
 
     public int editOrder(Order order);
 
-    public int makeorder(@Param("id") long id);
+    public int makeorder(@Param("id") long id,@Param("account") String account);
 
-    public int makeorderck(@Param("id") long id);
+    public int makeorderck(@Param("id") long id,@Param("account") String account);
 }

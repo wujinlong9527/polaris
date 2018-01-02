@@ -74,10 +74,10 @@ public class OrderServiceImpl implements IOrderService {
         return ret;
     }
 
-    public int makeorder(long id){
+    public int makeorder(long id,String account){
         int ret = 0;
         try {
-            orderMapper.makeorder(id);
+            orderMapper.makeorder(id,account);
         }catch (Exception e){
             e.printStackTrace();
             ret=9;
@@ -85,10 +85,10 @@ public class OrderServiceImpl implements IOrderService {
         return ret;
     }
 
-    public int makeorderck(long id){
+    public int makeorderck(long id,String account){
         int ret = 0;
         try {
-            orderMapper.makeorderck(id);
+            orderMapper.makeorderck(id,account);
         }catch (Exception e){
             e.printStackTrace();
             ret=9;
