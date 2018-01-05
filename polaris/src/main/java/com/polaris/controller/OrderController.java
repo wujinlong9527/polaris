@@ -1,13 +1,11 @@
 package com.polaris.controller;
 
 
+import com.polaris.entity.Express;
 import com.polaris.entity.Order;
 import com.polaris.entity.SysGroup;
 import com.polaris.entity.User;
-import com.polaris.service.IGoodsService;
-import com.polaris.service.IOrderService;
-import com.polaris.service.ISysGroupService;
-import com.polaris.service.IUserService;
+import com.polaris.service.*;
 import com.polaris.tool.easyui.DataGrid;
 import com.polaris.tool.easyui.Json;
 import com.polaris.tool.util.StringUtil;
@@ -54,6 +52,9 @@ public class OrderController {
 
     @Resource
     private ISysGroupService sysGroupService;
+
+    @Resource
+    private IExpressService expressService;
     /**
      * 跳转到用户表格页面
      * @param model
@@ -79,6 +80,12 @@ public class OrderController {
     public String printck(Model model, String id) {
         model.addAttribute("id",id);
         return "order/printck";
+    }
+
+    @RequestMapping(value = "/order/printwl", method = RequestMethod.GET)
+    public String printwl(Model model, String id) {
+        model.addAttribute("id",id);
+        return "order/printwl";
     }
     /**
      * 用户表格
@@ -119,7 +126,44 @@ public class OrderController {
         return dg;
     }
 
-
+    /**
+     * 用户表格
+     * @return DataGrid
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order/datagridqr", method = RequestMethod.POST)
+    public DataGrid datagridqr(Order order ,HttpServletRequest request) {
+        String account= request.getSession().getAttribute("user").toString();
+        List<User> list= userService.getgroupname(account);
+        String groupid = "";
+        for(User user:list){
+            groupid = user.getGroupid();
+        }
+        if(groupid.equals("888888")){
+            account="";
+        }
+        order.setAccount(account);
+        DataGrid dg = new DataGrid();
+        try {
+            if ((order.getFinaltime() != null) && (order.getFinaltime() != "")
+                    && (10 == order.getFinaltime().length())) {
+                order.setFinaltime(order.getFinaltime() + " 23:59:59");
+            }
+            if("全部".equals(order.getDdzt())) {
+                order.setDdzt("");
+            }
+            if("全部".equals(order.getSfqr())) {
+                order.setSfqr("");
+            }
+            dg.setTotal(orderService.getOrderCountqr(order));
+            List<Order> orderList = orderService.getOrderListqr(order);
+            dg.setRows(orderList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dg;
+    }
 
 
     /**
@@ -164,6 +208,42 @@ public class OrderController {
         return dg;
     }
 
+
+    /**
+     * 物流确认用户表格
+     * @return DataGrid
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order/datagridwl", method = RequestMethod.POST)
+    public DataGrid datagridwl(Order order ,HttpServletRequest request) {
+        String account= request.getSession().getAttribute("user").toString();
+        List<User> list= userService.getgroupname(account);
+        String groupid = "";
+        for(User user:list){
+            groupid = user.getGroupid();
+        }
+        if(groupid.equals("888888")){
+            account="";
+        }
+        order.setAccount(account);
+        DataGrid dg = new DataGrid();
+        try {
+            if ((order.getFinaltime() != null) && (order.getFinaltime() != "")
+                    && (10 == order.getFinaltime().length())) {
+                order.setFinaltime(order.getFinaltime() + " 23:59:59");
+            }
+            if("全部".equals(order.getWlqr())) {
+                order.setWlqr("");
+            }
+            dg.setTotal(orderService.getOrderCountwl(order));
+            List<Order> orderList = orderService.getOrderListwl(order);
+            dg.setRows(orderList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dg;
+    }
 
 
 
@@ -300,7 +380,7 @@ public class OrderController {
     }
 
     /**
-     * 确认订单
+     * 确认库存
      * @return Json
      * @Exception
      */
@@ -324,5 +404,51 @@ public class OrderController {
             j.setMsg(e.getMessage());
         }
         return j;
+    }
+
+    /**
+     * 确认物流
+     * @return Json
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order/confirmexp", method = RequestMethod.POST)
+    public Json confirmexp(Order order,HttpServletRequest request) {
+        Json j = new Json();
+        String account = request.getSession().getAttribute("user").toString();
+        try {
+            int flag = orderService.makeorderwl(order.getId(), account);
+            if(flag==0){
+                //确认物流成功后，同时新增物流信息
+                List<Order> list = orderService.getOrderById(order.getId());
+                Express express = dealdata(list);
+                expressService.addExpinfo(express);
+                j.setSuccess(true);
+                j.setMsg("物流确认成功！");
+            }else {
+                j.setSuccess(false);
+                j.setMsg("物流确认失败！");
+            }
+            j.setObj(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
+    }
+
+    public Express dealdata(List<Order> list){
+        Express exp = new Express();
+        String expressid = StringUtil.getExpressid();
+        String rq = StringUtil.getrq();
+        for(Order order :list){
+            exp.setOrderid(order.getOrderid());
+            exp.setGoodsid(order.getGoodsid());
+            exp.setGroupid(order.getGroupid());
+            exp.setExpaddress(order.getReaddress());
+        }
+        exp.setExpressid(expressid);
+        exp.setExptime(rq);
+        return exp;
     }
 }

@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="polaris:war exploded">
-    <output-path>$PROJECT_DIR$/target/polaris_0.0.1-SNAPSHOT_20171228163737</output-path>
+    <output-path>$PROJECT_DIR$/target/polaris_0.0.1-SNAPSHOT_20180104153752</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -66,7 +66,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/polaris_0.0.1-SNAPSHOT_20171228163737/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/polaris_0.0.1-SNAPSHOT_20180104153752/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="polaris/web/Web" />
     </root>

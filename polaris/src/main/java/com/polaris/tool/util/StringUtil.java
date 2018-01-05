@@ -245,4 +245,8 @@ public class StringUtil {
         return goodsid;
     }
 
+    public static String getExpressid(){
+        String expressid = (System.currentTimeMillis()+"").substring(8)+(System.nanoTime() + "").substring(0, 7);
+        return expressid ;
+    }
 }  

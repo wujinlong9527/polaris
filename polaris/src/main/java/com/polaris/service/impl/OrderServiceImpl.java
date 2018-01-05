@@ -38,6 +38,20 @@ public class OrderServiceImpl implements IOrderService {
         return orderMapper.getOrderCount(order);
     }
 
+    public List<Order> getOrderListqr(Order order) {
+        List<Order> list = new ArrayList<Order>();
+        try {
+            list = orderMapper.getOrderListqr(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Long getOrderCountqr(Order order){
+        return orderMapper.getOrderCountqr(order);
+    }
+
     public List<Order> getOrderListck(Order order) {
         List<Order> list = new ArrayList<Order>();
         try {
@@ -94,5 +108,40 @@ public class OrderServiceImpl implements IOrderService {
             ret=9;
         }
         return ret;
+    }
+
+    public List<Order> getOrderListwl(Order order) {
+        List<Order> list = new ArrayList<Order>();
+        try {
+            list = orderMapper.getOrderListwl(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Long getOrderCountwl(Order order){
+        return orderMapper.getOrderCountwl(order);
+    }
+
+    public int makeorderwl(long id,String account){
+        int ret = 0;
+        try {
+            orderMapper.makeorderwl(id, account);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret=9;
+        }
+        return ret;
+    }
+
+    public List<Order> getOrderById(long id){
+        List<Order> list = null;
+        try {
+            list = orderMapper.getOrderById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
     }
 }

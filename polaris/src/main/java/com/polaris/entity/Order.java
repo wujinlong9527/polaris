@@ -149,6 +149,26 @@ public class Order extends PageHelper {
 
     private String ddbz;
 
+    private String wlqr;
+
+    private String lqbz;
+
+    public String getLqbz() {
+        return lqbz;
+    }
+
+    public void setLqbz(String lqbz) {
+        this.lqbz = lqbz;
+    }
+
+    public String getWlqr() {
+        return wlqr;
+    }
+
+    public void setWlqr(String wlqr) {
+        this.wlqr = wlqr;
+    }
+
     public String getDdbz() {
         return ddbz;
     }
@@ -480,6 +500,8 @@ public class Order extends PageHelper {
                 ", sfqr='" + sfqr + '\'' +
                 ", ckqr='" + ckqr + '\'' +
                 ", ddbz='" + ddbz + '\'' +
+                ", wlqr='" + wlqr + '\'' +
+                ", lqbz='" + lqbz + '\'' +
                 '}';
     }
 }

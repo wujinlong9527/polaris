@@ -24,6 +24,10 @@ public interface IOrderService {
 
     public Long getOrderCount(Order order);
 
+    public List<Order> getOrderListqr(Order order);
+
+    public Long getOrderCountqr(Order order);
+
     public List<Order> getOrderListck(Order order);
 
     public Long getOrderCountck(Order order);
@@ -35,4 +39,12 @@ public interface IOrderService {
     public int makeorder(long id,String account);
 
     public int makeorderck(long id,String account);
+
+    public List<Order> getOrderListwl(Order order);
+
+    public Long getOrderCountwl(Order order);
+
+    public int  makeorderwl(long id,String account);
+
+    public List<Order> getOrderById(long id);
 }

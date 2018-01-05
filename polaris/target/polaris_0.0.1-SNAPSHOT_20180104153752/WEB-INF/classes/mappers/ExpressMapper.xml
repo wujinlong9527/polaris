@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.polaris.mapper.polaris.ExpressMapper">
+
+    <select id="getExpCount" resultType="java.lang.Long">
+        SELECT count(1) FROM ee01 WHERE groupid IN (SELECT groupid FROM sysuser WHERE account like CONCAT('%',#{account},'%'))
+        <if test="inserttime != null and inserttime != ''">
+            <![CDATA[and  exptime >= #{inserttime} ]]>
+        </if>
+        <if test="finaltime != null and finaltime != ''">
+            <![CDATA[and  exptime < #{finaltime} ]]>
+        </if>
+        <if test="expressid != null and expressid != ''">
+            and expressid LIKE CONCAT('%',#{expressid},'%')
+        </if>
+
+    </select>
+
+    <select id="getExpsList" resultType="com.polaris.entity.Express">
+        SELECT a.id,a.expressid,a.orderid,a.groupid,a.goodsid,a.exptime,a.endtime,a.expname,a.exphone,a.expaddress from ee01 a where
+        a.groupid IN (SELECT groupid FROM sysuser WHERE account like CONCAT('%',#{account},'%'))
+        <if test="inserttime != null and inserttime != ''">
+            <![CDATA[and  a.exptime >= #{inserttime} ]]>
+        </if>
+        <if test="finaltime != null and finaltime != ''">
+            <![CDATA[and  a.exptime < #{finaltime} ]]>
+        </if>
+        <if test="expressid != null and expressid != ''">
+            and a.expressid LIKE CONCAT('%',#{expressid},'%')
+        </if>
+
+    </select>
+
+    <insert id="addExpinfo">
+      INSERT INTO ee01(expressid,orderid,goodsid,groupid,exptime,expaddress)
+      values(#{expressid},#{orderid},#{goodsid},#{groupid},#{exptime},#{expaddress})
+    </insert>
+
+</mapper>

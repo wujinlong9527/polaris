@@ -27,9 +27,17 @@ public interface OrderMapper {
 
     public Long getOrderCount(Order order);
 
+    public List<Order> getOrderListqr(Order order);
+
+    public Long getOrderCountqr(Order order);
+
     public List<Order> getOrderListck(Order order);
 
     public Long getOrderCountck(Order order);
+
+    public List<Order> getOrderListwl(Order order);
+
+    public Long getOrderCountwl(Order order);
 
     public int addOrder(Order order);
 
@@ -38,4 +46,8 @@ public interface OrderMapper {
     public int makeorder(@Param("id") long id,@Param("account") String account);
 
     public int makeorderck(@Param("id") long id,@Param("account") String account);
+
+    public int makeorderwl(@Param("id") long id,@Param("account") String account);
+
+    public List<Order> getOrderById(@Param("id") long id);
 }
