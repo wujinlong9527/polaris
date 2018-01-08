@@ -1,0 +1,46 @@
+/*C1*/SET SCHEMA PUBLIC
+CONNECT USER SA
+DISCONNECT
+/*C2*/SET SCHEMA PUBLIC
+CONNECT USER SA
+DISCONNECT
+/*C3*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C4*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C5*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C6*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C7*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C8*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C9*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C10*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C11*/SET SCHEMA PUBLIC
+CONNECT USER SA
+/*C12*/SET SCHEMA PUBLIC
+CONNECT USER SA
+SET LOGSIZE 5
+SET AUTOCOMMIT FALSE
+/*C11*/SET AUTOCOMMIT FALSE
+SET AUTOCOMMIT TRUE
+/*C12*/SET AUTOCOMMIT TRUE
+INSERT INTO FR_EXERECORD VALUES(3,'/goods/ckd.cpt',0,'__LOCALE__ : zh_CN[java.util.Locale], __STREAMCLOSED__ : [java.lang.String], COM.ALIBABA.LASTPAGE : L3BvbGFyaXMv\u000d\u000a[java.lang.String], ENCODINGFILTER.FILTERED : true[java.lang.String], ID : 10[java.lang.String], ORG.SPRINGFRAMEWORK.WEB.CONTEXT.REQUEST.ASYNC.WEBASYNCMANAGER.WEB_ASYNC_MANAGER : org.springframework.web.context.request.async.WebAsyncManager@55aa1eff[java.lang.String], REPORTLET : /goods/ckd.cpt[java.lang.String], REPORTNAME : /goods/ckd.cpt[java.lang.String], USER : admin[java.lang.String], USERID : 20[java.lang.Integer], USERNAME : admin[java.lang.String]','localhost','\u672a\u767b\u5f55\u7528\u6237','\u672a\u77e5\u89d2\u8272',403,'2018-01-08 16:57:36.557000000','[ sql : SELECT a.orderid,b.gtypename,b.goodsname,a.count,a.price,a.amount,a.readdress,b.goodsid FROM aa01 a LEFT JOIN gg01 b ON a.goodsid=b.goodsid where a.id=10 ; rowcount : 1 ; time : 2018-01-08 16:57:36 ;]\u000a','{"Agent":"mozilla/5.0 (windows nt 6.1; wow64) applewebkit/537.36 (khtml, like gecko) chrome/61.0.3163.79 safari/537.36","Version":"537.36","BoxModel":true,"Browser":"webkit"}',14400)
+INSERT INTO FR_EXERECORD VALUES(4,'/goods/ckd.cpt',0,'__LOCALE__ : zh_CN[java.util.Locale], __STREAMCLOSED__ : [java.lang.String], COM.ALIBABA.LASTPAGE : L3BvbGFyaXMv\u000d\u000a[java.lang.String], ENCODINGFILTER.FILTERED : true[java.lang.String], ID : 11[java.lang.String], ORG.SPRINGFRAMEWORK.WEB.CONTEXT.REQUEST.ASYNC.WEBASYNCMANAGER.WEB_ASYNC_MANAGER : org.springframework.web.context.request.async.WebAsyncManager@6e2c96b9[java.lang.String], REPORTLET : /goods/ckd.cpt[java.lang.String], REPORTNAME : /goods/ckd.cpt[java.lang.String], USER : admin[java.lang.String], USERID : 20[java.lang.Integer], USERNAME : admin[java.lang.String]','localhost','\u672a\u767b\u5f55\u7528\u6237','\u672a\u77e5\u89d2\u8272',8,'2018-01-08 16:57:42.723000000','[ sql : SELECT a.orderid,b.gtypename,b.goodsname,a.count,a.price,a.amount,a.readdress,b.goodsid FROM aa01 a LEFT JOIN gg01 b ON a.goodsid=b.goodsid where a.id=11 ; rowcount : 1 ; time : 2018-01-08 16:57:42 ;]\u000a','{"Agent":"mozilla/5.0 (windows nt 6.1; wow64) applewebkit/537.36 (khtml, like gecko) chrome/61.0.3163.79 safari/537.36","Version":"537.36","BoxModel":true,"Browser":"webkit"}',14400)
+/*C11*/INSERT INTO FR_FUNCTIONRECORD VALUES('{"315823103":4}','2018-01-08 16:59:34.439000000')
+/*C12*/INSERT INTO FR_EXERECORD VALUES(5,'/express/wlpsd.cpt',0,'__LOCALE__ : zh_CN[java.util.Locale], __STREAMCLOSED__ : [java.lang.String], COM.ALIBABA.LASTPAGE : L3BvbGFyaXMv\u000d\u000a[java.lang.String], ENCODINGFILTER.FILTERED : true[java.lang.String], ID : 10[java.lang.String], ORG.SPRINGFRAMEWORK.WEB.CONTEXT.REQUEST.ASYNC.WEBASYNCMANAGER.WEB_ASYNC_MANAGER : org.springframework.web.context.request.async.WebAsyncManager@f090fc2[java.lang.String], REPORTLET : /express/wlpsd.cpt[java.lang.String], REPORTNAME : /express/wlpsd.cpt[java.lang.String], USER : admin[java.lang.String], USERID : 20[java.lang.Integer], USERNAME : admin[java.lang.String]','localhost','\u672a\u767b\u5f55\u7528\u6237','\u672a\u77e5\u89d2\u8272',23,'2018-01-08 17:01:35.142000000','[ sql : SELECT a.orderid,b.gtypename,b.goodsname,a.count,a.price,a.amount,a.readdress,b.goodsid ,a.phone,a.username,c.expressidFROM aa01 a LEFT JOIN gg01 b ON a.goodsid=b.goodsid LEFT JOIN ee01 c ON a.orderid=c.orderid AND a.goodsid=c.goodsid where a.id=10 ; rowcount : 1 ; time : 2018-01-08 17:01:35 ;]\u000a','{"Agent":"mozilla/5.0 (windows nt 6.1; wow64) applewebkit/537.36 (khtml, like gecko) chrome/61.0.3163.79 safari/537.36","Version":"537.36","BoxModel":true,"Browser":"webkit"}',14400)
+/*C11*/INSERT INTO FR_FUNCTIONRECORD VALUES('{"315823103":2}','2018-01-08 17:03:34.438000000')
+/*C3*/DISCONNECT
+/*C4*/DISCONNECT
+/*C5*/DISCONNECT
+/*C6*/DISCONNECT
+/*C7*/DISCONNECT
+/*C8*/DISCONNECT
+/*C9*/DISCONNECT
+/*C10*/DISCONNECT
+/*C11*/DISCONNECT
+/*C12*/DISCONNECT

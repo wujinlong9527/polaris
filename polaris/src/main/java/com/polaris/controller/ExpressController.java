@@ -1,10 +1,14 @@
 package com.polaris.controller;
 
 import com.polaris.entity.Express;
+import com.polaris.entity.Expuser;
 import com.polaris.entity.User;
 import com.polaris.service.IExpressService;
+import com.polaris.service.IOrderService;
 import com.polaris.service.IUserService;
 import com.polaris.tool.easyui.DataGrid;
+import com.polaris.tool.easyui.Json;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,7 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 项目名称：polaris
@@ -38,6 +46,9 @@ public class ExpressController {
     @Resource
     private IExpressService expressService;
 
+    @Resource
+    private IOrderService orderService;
+
     /**
      * 跳转到用户表格页面
      * @param model
@@ -54,6 +65,21 @@ public class ExpressController {
         return "express/confirmexp";
     }
 
+    @RequestMapping(value = "/express/addpersonforexp", method = RequestMethod.GET)
+    public String addpersonforexp(Model model) {
+        return "express/addpersonforexp";
+    }
+
+    @RequestMapping(value = "/express/expgroup", method = RequestMethod.GET)
+    public String expgroup(Model model) {
+        return "express/expgroup";
+    }
+
+    @RequestMapping(value = "/express/distribution", method = RequestMethod.GET)
+    public String sysDistributionRole(Model model, Expuser expuser) {
+        model.addAttribute("expuser", expuser);
+        return "express/distribution";
+    }
     /**
      * 用户表格
      * @return DataGrid
@@ -82,5 +108,238 @@ public class ExpressController {
             e.printStackTrace();
         }
         return dg;
+    }
+
+    /**
+     * 用户表格
+     * @return DataGrid
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/express/datagriduser", method = RequestMethod.POST)
+    public DataGrid datagriduser(Expuser expuser ,HttpServletRequest request) {
+        DataGrid dg = new DataGrid();
+        try {
+            expuser.setExpuserid(expuser.getUserid());
+            expuser.setExpusername(expuser.getUsername());
+            dg.setTotal(expressService.getExpuserCount(expuser));
+            List<Expuser> expuserList = expressService.getExpuserList(expuser);
+            dg.setRows(expuserList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dg;
+    }
+
+    /**
+     * 物流组表格
+     * @return DataGrid
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/express/datagridgroup", method = RequestMethod.POST)
+    public DataGrid datagridgroup(Expuser expuser ,HttpServletRequest request) {
+        DataGrid dg = new DataGrid();
+        try {
+            if(expuser.getTj() !=null && !expuser.getTj().equals("")){
+                log.info("tj===="+expuser.getTj());
+                expuser.setTeamid(Integer.parseInt((expuser.getTj())));
+            }
+            dg.setTotal(expressService.getExpgroupCount(expuser));
+            List<Expuser> expgroupList = expressService.getExpgroupList(expuser);
+            dg.setRows(expgroupList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dg;
+    }
+
+    /**
+     * 新增物流组
+     * @return Json
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/express/addExpGroup", method = RequestMethod.POST)
+    public Json addExpGroup(Expuser expuser,HttpServletRequest request) {
+        Json j = new Json();
+        int ret = 0;
+        SimpleDateFormat sm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        expuser.setInserttime(sm.format(new Date()));
+        try {
+            if (expuser.getId() == 0) {
+                ret = expressService.isExistGroup(expuser);
+                if (ret > 0) {
+                    j.setSuccess(false);
+                    j.setMsg("此物流组已存在！");
+                } else {
+                    int flag = expressService.addExpGroup(expuser);
+                    if(flag==0){
+                        j.setSuccess(true);
+                        j.setMsg("新增物流组成功！");
+                    }else {
+                        j.setSuccess(false);
+                        j.setMsg("新增物流组失败！");
+                    }
+                }
+            } else {
+                ret = expressService.isExistTeamname(expuser);
+                if (ret > 0) {
+                    j.setSuccess(false);
+                    j.setMsg("物流组名称已经存在，请重新输入！");
+                }else{
+                    int flag=expressService.editExpGroup(expuser);
+                    if(flag==0){
+                        j.setSuccess(true);
+                        j.setMsg("修改物流组成功！");
+                    }else {
+                        j.setSuccess(false);
+                        j.setMsg("修改物流组失败！");
+                    }
+                }
+            }
+            j.setObj(expuser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
+    }
+
+    /**
+     * 删除物流组
+     * @return Json
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/express/delTeam", method = RequestMethod.POST)
+    public Json delTeam(Expuser expuser,HttpServletRequest request) {
+        Json j = new Json();
+        try {
+            int flag = expressService.delExpGroup(expuser.getId());
+            if(flag==0){
+                j.setSuccess(true);
+                j.setMsg("删除物流组成功！");
+            }else {
+                j.setSuccess(false);
+                j.setMsg("删除物流组失败！");
+            }
+            j.setObj(expuser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
+    }
+
+    /**
+     * 获取物流组
+     * @return Json
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/express/getExpTeam", method = RequestMethod.POST)
+    public JSONObject getExpTeam(Expuser expuser) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            List<Expuser> list = expressService.getExpTeamList();
+            if(list.size()>0){
+                Json j = new Json();
+                map.put("rows", list);
+                map.put("total", list.size());
+                j.setObj(JSONObject.fromObject(map));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return JSONObject.fromObject(map);
+    }
+
+    /**
+     * 新增派送员
+     * @return Json
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/express/addExpUser", method = RequestMethod.POST)
+    public Json addExpUser(Expuser expuser,HttpServletRequest request) {
+        Json j = new Json();
+        SimpleDateFormat sm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        expuser.setInserttime(sm.format(new Date()));
+        try {
+            if (expuser.getId() == 0) {
+                int flag = expressService.addExpUser(expuser);
+                if(flag==0){
+                    j.setSuccess(true);
+                    j.setMsg("新增派送员成功！");
+                }else {
+                    j.setSuccess(false);
+                    j.setMsg("新增派送员失败！");
+                }
+            } else {
+                int flag=expressService.editExpUser(expuser);
+                if(flag==0){
+                    j.setSuccess(true);
+                    j.setMsg("修改派送员成功！");
+                }else {
+                    j.setSuccess(false);
+                    j.setMsg("修改派送员失败！");
+                }
+            }
+            j.setObj(expuser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
+    }
+
+    //删除派送员
+    @ResponseBody
+    @RequestMapping(value = "/express/delExpuser", method = RequestMethod.POST)
+    public Json delExpuser(Expuser expuser,HttpServletRequest request) {
+        Json j = new Json();
+        try {
+            int flag = expressService.delExpuser(expuser.getId());
+            if(flag==0){
+                j.setSuccess(true);
+                j.setMsg("删除派送员成功！");
+            }else {
+                j.setSuccess(false);
+                j.setMsg("删除派送员失败！");
+            }
+            j.setObj(expuser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
+    }
+
+    //confirmFinalExp 确认完成配送
+    @ResponseBody
+    @RequestMapping(value = "/express/confirmFinalExp", method = RequestMethod.POST)
+    public Json confirmFinalExp(Expuser expuser) {
+        Json j = new Json();
+        try {
+            String [] arr = expuser.getTj().split(",");
+            int id = Integer.parseInt(arr[0]);
+            String orderid = arr[1].trim();
+            String goodsid = arr[2].trim();
+            int flag = expressService.confirmFinalExp(id);
+            if(flag==0){
+                orderService.updateOrderzt(orderid,goodsid);
+                j.setSuccess(true);
+                j.setMsg("订单配送完成确认成功！");
+            }else {
+                j.setSuccess(false);
+                j.setMsg("订单配送完成确认失败！");
+            }
+            j.setObj(expuser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
     }
 }

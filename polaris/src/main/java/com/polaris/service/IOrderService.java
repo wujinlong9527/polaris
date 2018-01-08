@@ -47,4 +47,6 @@ public interface IOrderService {
     public int  makeorderwl(long id,String account);
 
     public List<Order> getOrderById(long id);
+
+    public int updateOrderzt(String orderid,String goodsid);
 }

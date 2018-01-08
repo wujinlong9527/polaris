@@ -7,6 +7,6 @@
 <UerDataControl type="0"/>
 <fstheme name="default"/>
 <SystemStyle colorScheme="0"/>
-<AutoBackupTimerAttr name="autoBackup" isStart="true" nextStartDate="2018.01.31 16.44.46" frequency="7"/>
+<AutoBackupTimerAttr name="autoBackup" isStart="true" nextStartDate="2018.01.31 16.30.48" frequency="7"/>
 <DatabaseAdapterAttr/>
 </fsconfig>

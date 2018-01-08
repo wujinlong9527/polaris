@@ -50,4 +50,6 @@ public interface OrderMapper {
     public int makeorderwl(@Param("id") long id,@Param("account") String account);
 
     public List<Order> getOrderById(@Param("id") long id);
+
+    public void updateOrderzt(@Param("orderid") String orderid,@Param("goodsid") String goodsid);
 }

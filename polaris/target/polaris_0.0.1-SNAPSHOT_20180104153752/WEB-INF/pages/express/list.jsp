@@ -47,6 +47,31 @@
             $("#datagrid").datagrid("load");
         }
 
+        //确认订单
+        function finalexp(val, row) {
+            if(row.endtime=='' || row.endtime==null ){
+                return '<a class="editcls" href="javascript:void(0)" onclick="editRow(\'' + row.id + ',' + row.orderid + ',' + row.goodsid + '\')" >派送完成确认</a>';
+            }
+        }
+
+        function editRow(id) {
+            $.messager.confirm("提示", "如果已经确认客户收货，请确认？", function (r) {
+                if (r) {
+                    $.post('${path}/express/confirmFinalExp',
+                    {tj: id},
+                    function (result) {
+                        var result = eval('(' + result + ')');
+                        if (result.success) {
+                            $.messager.alert('消息提示', result.msg,"info");
+                            $("#datagrid").datagrid("options").url = "${path}/express/datagrid?" + $("#fmorder").serialize();
+                            $("#datagrid").datagrid("load");
+                        } else {
+                            $.messager.alert('错误提示',  result.msg,"error");
+                        }
+                    });
+                }
+            });
+        }
     </script>
 
 </head>
@@ -63,11 +88,13 @@
             <th field="orderid" width="130" align="center">订单号</th>
             <th field="goodsid" width="130" align="center">商品编号</th>
             <th field="goodsname" width="130"  align="center">商品名称</th>
-            <th field="exptime" width="140" align="center">配送时间</th>
-            <th field="endtime" width="140" align="center">配送时间</th>
-            <th field="expname" width="140" align="center" >配送员</th>
-            <th field="exphone" width="140" align="center" >配送员电话</th>
-            <th field="expaddress" width="140" align="center" >配送地址</th>
+            <th field="exptime" width="140" align="center">配送开始时间</th>
+            <th field="endtime" width="140" align="center">配送完成时间</th>
+            <th field="expzt" width="80" align="center" >配送状态</th>
+            <th field="expname" width="100" align="center" >配送员姓名</th>
+            <th field="exphone" width="100" align="center" >配送员电话</th>
+            <th field="expaddress" width="240" align="center" >配送地址</th>
+            <th field="opt" width="100" align="center" formatter="finalexp">操作</th>
         </tr>
         </thead>
     </table>
@@ -93,6 +120,9 @@
                    iconCls="icon-search" plain="true" onclick="searchGoods();" >查询</a>
                 <a href="javascript:void(0);" class="easyui-linkbutton"
                    iconCls="icon-reload" plain="true" onclick="onReset();" >重置</a>
+
+                <a href="javascript:void(0);" class="easyui-linkbutton"
+                   iconCls="icon-remove" plain="true" onclick="onReset();" >分派快递员</a>
             </div>
         </form>
 

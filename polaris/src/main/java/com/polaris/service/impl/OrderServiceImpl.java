@@ -144,4 +144,15 @@ public class OrderServiceImpl implements IOrderService {
         }
         return list;
     }
+
+    public int updateOrderzt(String orderid,String goodsid){
+        int ret = 0;
+        try {
+            orderMapper.updateOrderzt(orderid, goodsid);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret=9;
+        }
+        return ret;
+    }
 }

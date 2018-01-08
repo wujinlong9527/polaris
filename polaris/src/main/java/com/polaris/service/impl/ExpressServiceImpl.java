@@ -2,6 +2,7 @@
 package com.polaris.service.impl;
 
 import com.polaris.entity.Express;
+import com.polaris.entity.Expuser;
 import com.polaris.mapper.polaris.ExpressMapper;
 import com.polaris.service.IExpressService;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,150 @@ public class ExpressServiceImpl implements IExpressService {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public Long getExpuserCount(Expuser expuser){
+        return expressMapper.getExpuserCount(expuser);
+    }
+
+    public List<Expuser> getExpuserList(Expuser expuser){
+        List<Expuser> list = null;
+        try {
+            list = expressMapper.getExpuserList(expuser);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    public Long getExpgroupCount(Expuser expuser){
+        return expressMapper.getExpgroupCount(expuser);
+    }
+
+    public List<Expuser> getExpgroupList(Expuser expuser){
+        List<Expuser> list = null;
+        try {
+            list = expressMapper.getExpgroupList(expuser);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int isExistGroup(Expuser expuser){
+        int ret = 0;
+        try {
+            ret = expressMapper.isExistGroup(expuser);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public int addExpGroup(Expuser expuser){
+        int ret = 0;
+        try {
+            expressMapper.addExpGroup(expuser);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public int isExistTeamname(Expuser expuser){
+        int ret = 0;
+        try {
+            ret = expressMapper.isExistTeamname(expuser);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public int editExpGroup(Expuser expuser){
+        int ret = 0;
+        try {
+            expressMapper.editExpGroup(expuser);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public int delExpGroup(int id){
+        int ret = 0;
+        try {
+            expressMapper.delExpGroup(id);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public List<Expuser> getExpTeamList(){
+        List<Expuser> list = null;
+        try {
+            list = expressMapper.getExpTeamList();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int addExpUser(Expuser expuser){
+        int ret = 0;
+        try {
+            String expuserid = expressMapper.getExpuserid();
+            if(expuserid==null || expuserid.equals("")){
+                expuserid = "100001";
+            }else {
+                expuserid = String.valueOf(Integer.parseInt(expuserid) + 1);
+            }
+            expuser.setExpuserid(expuserid);
+            expressMapper.addExpUser(expuser);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public int editExpUser(Expuser expuser){
+        int ret = 0;
+        try {
+            expressMapper.editExpUser(expuser);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public int delExpuser(int id){
+        int ret = 0;
+        try {
+            expressMapper.delExpuser(id);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public int confirmFinalExp(int id){
+        int ret = 0;
+        try {
+            expressMapper.confirmFinalExp(id);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
     }
 }

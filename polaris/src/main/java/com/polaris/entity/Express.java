@@ -58,6 +58,26 @@ public class Express extends PageHelper {
 
     private String account;
 
+    private String goodsname;
+
+    private String expzt;
+
+    public String getExpzt() {
+        return expzt;
+    }
+
+    public void setExpzt(String expzt) {
+        this.expzt = expzt;
+    }
+
+    public String getGoodsname() {
+        return goodsname;
+    }
+
+    public void setGoodsname(String goodsname) {
+        this.goodsname = goodsname;
+    }
+
     public String getInserttime() {
         return inserttime;
     }

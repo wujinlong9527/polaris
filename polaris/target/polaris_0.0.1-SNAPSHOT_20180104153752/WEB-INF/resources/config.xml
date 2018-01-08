@@ -2,7 +2,7 @@
 <ReportServerParameter xmlVersion="20151125" releaseVersion="8.0.0">
 <ServerLogLevel>
 <![CDATA[SEVERE]]></ServerLogLevel>
-<FRLogCleanAttr isStart="true" rate="90" lastTime="1515055485776"/>
+<FRLogCleanAttr isStart="true" rate="90" lastTime="1515400247445"/>
 <LOGCNG/>
 <FARRAY/>
 <Write serverCharacterEncoding="UTF-8"/>

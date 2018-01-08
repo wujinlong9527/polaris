@@ -17,8 +17,10 @@
     </select>
 
     <select id="getExpsList" resultType="com.polaris.entity.Express">
-        SELECT a.id,a.expressid,a.orderid,a.groupid,a.goodsid,a.exptime,a.endtime,a.expname,a.exphone,a.expaddress from ee01 a where
-        a.groupid IN (SELECT groupid FROM sysuser WHERE account like CONCAT('%',#{account},'%'))
+        SELECT a.id,a.expressid,a.orderid,a.groupid,a.goodsid,b.goodsname,a.exptime,a.endtime,a.expname,a.exphone,a.expaddress ,
+        (SELECT aaa102 FROM aa10 c WHERE c.aaa100='expzt' AND c.aaa101=a.expzt) expzt
+        FROM ee01 a LEFT JOIN gg01 b ON a.goodsid=b.goodsid
+        where a.groupid IN (SELECT groupid FROM sysuser WHERE account like CONCAT('%',#{account},'%'))
         <if test="inserttime != null and inserttime != ''">
             <![CDATA[and  a.exptime >= #{inserttime} ]]>
         </if>
@@ -32,8 +34,94 @@
     </select>
 
     <insert id="addExpinfo">
-      INSERT INTO ee01(expressid,orderid,goodsid,groupid,exptime,expaddress)
-      values(#{expressid},#{orderid},#{goodsid},#{groupid},#{exptime},#{expaddress})
+      INSERT INTO ee01(expressid,orderid,goodsid,groupid,exptime,expaddress,expzt)
+      values(#{expressid},#{orderid},#{goodsid},#{groupid},#{exptime},#{expaddress},'02')
     </insert>
 
+    <select id="getExpuserCount" resultType="java.lang.Long">
+        SELECT count(1) FROM expuser a
+        LEFT JOIN expgroup b ON a.teamid=b.teamid WHERE 1=1
+        <if test="expuserid != null and expuserid != ''">
+            and a.expuserid LIKE CONCAT('%',#{expuserid},'%')
+        </if>
+        <if test="expusername != null and expusername != ''">
+            and a.expusername LIKE CONCAT('%',#{expusername},'%')
+        </if>
+    </select>
+
+    <select id="getExpuserList" resultType="com.polaris.entity.Expuser">
+        SELECT a.id,a.expuserid,a.expusername,a.sex,a.exphone,a.teamid,b.teamname FROM expuser a
+        LEFT JOIN expgroup b ON a.teamid=b.teamid where 1=1
+        <if test="expuserid != null and expuserid != ''">
+            and a.expuserid LIKE CONCAT('%',#{expuserid},'%')
+        </if>
+        <if test="expusername != null and expusername != ''">
+            and a.expusername LIKE CONCAT('%',#{expusername},'%')
+        </if>
+    </select>
+
+    <select id="getExpgroupCount" resultType="java.lang.Long">
+        SELECT count(1) FROM expgroup WHERE 1=1
+        <if test="teamid != null and teamid != ''">
+            and teamid LIKE CONCAT('%',#{teamid},'%')
+        </if>
+    </select>
+
+    <select id="getExpgroupList" resultType="com.polaris.entity.Expuser">
+        SELECT id,teamid,teamname,inserttime FROM expgroup WHERE 1=1
+        <if test="teamid != null and teamid != ''">
+            and teamid LIKE CONCAT('%',#{teamid},'%')
+        </if>
+    </select>
+
+    <select id="isExistGroup" resultType="java.lang.Integer">
+        SELECT count(1) FROM expgroup WHERE 1=1
+        <if test="teamid != null and teamid != ''">
+            and teamid LIKE CONCAT('%',#{teamid},'%')
+        </if>
+        <if test="teamname != null and teamname != ''">
+            and teamname LIKE CONCAT('%',#{teamname},'%')
+        </if>
+    </select>
+
+    <insert id="addExpGroup">
+        INSERT INTO expgroup (teamid,teamname,inserttime)
+        VALUES(#{teamid},#{teamname},#{inserttime})
+    </insert>
+
+    <select id="isExistTeamname" resultType="java.lang.Integer">
+        select count(1) from expgroup where teamname = #{teamname}
+    </select>
+
+    <update id="editExpGroup">
+        UPDATE expgroup SET teamname = #{teamname} where id = #{id}
+    </update>
+
+    <delete id="delExpGroup" parameterType="java.lang.Integer">
+        delete from expgroup where id = #{id}
+    </delete>
+
+    <select id="getExpTeamList" resultType="com.polaris.entity.Expuser">
+        select teamid,teamname from expgroup
+    </select>
+
+    <insert id="addExpUser">
+        INSERT INTO expuser (expuserid,expusername,sex,exphone,teamid)
+        VALUES (#{expuserid},#{expusername},#{sex},#{exphone},#{teamid})
+    </insert>
+
+    <select id="getExpuserid" resultType="String">
+        select max(expuserid) from expuser
+    </select>
+
+    <update id="editExpUser">
+        update expuser set expusername=#{expusername},sex=#{sex},exphone=#{exphone},teamid=#{teamid} where id=#{id}
+    </update>
+
+    <delete id="delExpuser" parameterType="java.lang.Integer">
+        delete from expuser where id = #{id}
+    </delete>
+    <update id="confirmFinalExp">
+        update ee01 set endtime = now(),expzt='01' where id=#{id}
+    </update>
 </mapper>

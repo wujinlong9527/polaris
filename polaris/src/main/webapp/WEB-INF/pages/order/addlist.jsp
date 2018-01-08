@@ -262,7 +262,7 @@
             <th field="gcount" width="10" align="center" hidden="true">gcount</th>
             <th field="count" width="80"  align="center">商品数量</th>
             <th field="amount" width="80"  align="center">订单总额</th>
-            <th field="ddzt" width="80" formatter="formatIsSuc" align="center">订单状态</th>
+            <th field="ddzt" width="80" align="center">订单状态</th>
             <th field="inserttime" width="130" align="center">下单时间</th>
             <th field="endtime" width="130" align="center">订单完成时间</th>
             <th field="phone" width="90" align="center">手机号码</th>
