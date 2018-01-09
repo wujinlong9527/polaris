@@ -191,4 +191,25 @@ public class ExpressServiceImpl implements IExpressService {
         }
         return ret;
     }
+
+    public String getExpuserPhone(String eid){
+        String tel = "";
+        try {
+            tel = expressMapper.getExpuserPhone(eid);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return tel;
+    }
+
+    public int updateExpressinfoByid(String id,String phone,String expuserid){
+        int ret = 0;
+        try {
+            expressMapper.updateExpressinfoByid(id,phone,expuserid);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
+    }
 }

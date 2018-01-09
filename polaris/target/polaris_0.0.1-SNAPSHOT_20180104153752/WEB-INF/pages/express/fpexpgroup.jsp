@@ -12,43 +12,6 @@
         var url;
         var mesTitle;
         var loading;
-        window.onload = function () {
-
-        }
-
-        function save() {
-            window.parent.linkDisable();
-            var expid = $("#expressid").val();
-            var idList = "";
-            $("input:checked").each(function () {
-                var id = $(this).attr("id");
-                if (id.indexOf('check_type') == -1 && id.indexOf("check_") > -1)
-                    idList += id.replace("check_", '') + ',';
-            });
-            if (idList != "") {
-               $.post('${path}/express/dealfpexpuser',
-                        {ids: idList, id: expid},
-                        function (result) {
-                            var result = eval('(' + result + ')');
-                            if (result.success) {
-                                alert(1);
-                                $.messager.alert('消息提示',  result.msg,'ok');
-                                //$("#successful").val("successful");
-                                //window.top.close();
-                                parent.$('#openRoleDiv').window('close');
-
-                            } else {
-                                $.messager.alert('错误提示', result.msg,'error');
-                            }
-                            window.parent.linkShow();
-                        });
-            } else {
-                window.parent.linkShow();
-                $.messager.alert('提示', "请选择要分配的快递员！",'warning');
-            }
-
-        }
-
         function show(checkid) {
             var s = '#check_' + checkid;
             /*选子节点*/
@@ -77,6 +40,34 @@
             return "<input type='checkbox' onclick=show('" + row.id + "') id='check_" + row.id + "' />";
         }
 
+        function save() {
+            window.parent.linkDisable();
+            var expid = $("#expressid").val();
+            var idList = "";
+            $("input:checked").each(function () {
+                var id = $(this).attr("id");
+                if (id.indexOf('check_type') == -1 && id.indexOf("check_") > -1)
+                    idList += id.replace("check_", '') + ',';
+            });
+            if (idList != "") {
+                $.post('${path}/express/dealfpexpuser',
+                        {ids: idList, id: expid},
+                        function (result) {
+                            var result = eval('(' + result + ')');
+                            if (result.success) {
+                                parent.$.messager.alert('消息提示',  result.msg,'info');
+                                parent.$('#openRoleDiv').window('close');
+                            } else {
+                                $.messager.alert('错误提示', result.msg,'error');
+                            }
+                            window.parent.linkShow();
+                        });
+            } else {
+                window.parent.linkShow();
+                $.messager.alert('提示', "请选择要分配的快递员！",'warning');
+            }
+        }
+
     </script>
 
 </head>
@@ -101,15 +92,6 @@
         </thead>
     </table>
     </body>
-<%--
-    <div id="configdlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6"
-           iconCls="icon-ok" onclick="saveConfig()" style="width:60px">确定</a> <a
-            href="javascript:void(0)" class="easyui-linkbutton"
-            iconCls="icon-cancel" onclick="javascript:$('#openRoleDiv').dialog('close')"
-            style="width:60px">取消</a>
-    </div>--%>
-
 
 </div>
 

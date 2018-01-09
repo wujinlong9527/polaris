@@ -60,4 +60,8 @@ public interface ExpressMapper {
     public int delExpuser(@Param("id") int id);
 
     public int confirmFinalExp(@Param("id") int id);
+
+    public String getExpuserPhone(@Param("eid") String eid);
+
+    public int updateExpressinfoByid(@Param("id") String id,@Param("phone") String phone,@Param("expuserid") String expuserid);
 }

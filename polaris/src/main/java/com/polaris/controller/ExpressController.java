@@ -382,8 +382,20 @@ public class ExpressController {
     public Json dealfpexpuser(String ids, String id) {
         Json j = new Json();
         try {
-            log.info(ids+"=========="+id);
-           int flag = 0;
+            String expuserid="";
+            String phone = "";
+            String [] expid = ids.split(",");
+            for(int i=0;i<expid.length;i++){
+                String eid = expid[i];
+                if(eid.length()>4){
+                    String tel = expressService.getExpuserPhone(eid);
+                    phone = phone+tel+",";
+                    expuserid = expuserid+eid+",";
+                }
+            }
+            phone = phone.substring(0,phone.length()-1);
+            expuserid = expuserid.substring(0,expuserid.length()-1);
+            int flag = expressService.updateExpressinfoByid(id,phone,expuserid);
             if(flag==0){
                 j.setSuccess(true);
                 j.setMsg("快递员分配成功！");

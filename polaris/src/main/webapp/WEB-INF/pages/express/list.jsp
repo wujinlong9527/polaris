@@ -76,6 +76,10 @@
         function DistributionExpuser() {
             var row = $("#datagrid").datagrid('getSelected');
             if (row) {
+                if(row.endtime !='' && row.endtime!=null){
+                    $.messager.alert('错误提示', '该订单已配送完成！请勿重复操作！',"error");
+                    return;
+                }
                 var id = row.id;
                 $('#iframe1')[0].src = '${path}/express/fpexpgroup?id=' + id;
                 $('#openRoleDiv').dialog('open');
@@ -86,6 +90,8 @@
 
         function saveConfig() {
             window.frames["iframe1"].save();
+            $("#datagrid").datagrid("options").url = "${path}/express/datagrid?" + $("#fmorder").serialize();
+            $("#datagrid").datagrid("load");
         }
 
         function linkDisable() {

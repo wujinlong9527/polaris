@@ -45,4 +45,7 @@ public interface IExpressService {
 
     public int confirmFinalExp(int id);
 
+    public String getExpuserPhone(String eid);
+
+    public int updateExpressinfoByid(String id,String phone,String expuserid);
 }
