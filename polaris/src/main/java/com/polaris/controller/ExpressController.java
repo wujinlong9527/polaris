@@ -1,5 +1,6 @@
 package com.polaris.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.polaris.entity.Express;
 import com.polaris.entity.Expuser;
 import com.polaris.entity.User;
@@ -75,10 +76,10 @@ public class ExpressController {
         return "express/expgroup";
     }
 
-    @RequestMapping(value = "/express/distribution", method = RequestMethod.GET)
-    public String sysDistributionRole(Model model, Expuser expuser) {
-        model.addAttribute("expuser", expuser);
-        return "express/distribution";
+    @RequestMapping(value = "/express/fpexpgroup", method = RequestMethod.GET)
+    public String fpexpgroup(Model model, Express express) {
+        model.addAttribute("express", express);
+        return "express/fpexpgroup";
     }
     /**
      * 用户表格
@@ -336,6 +337,60 @@ public class ExpressController {
                 j.setMsg("订单配送完成确认失败！");
             }
             j.setObj(expuser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
+    }
+
+    /**
+     * 查询分配快递员
+     * @return DataGrid
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/express/selectexpuser", method = RequestMethod.POST)
+    public JSONArray selectexpuser(Expuser expuser) {
+        List<Expuser> expTeamList = expressService.getExpTeamList();
+        List<Expuser> expuserList = expressService.getExpuserList(expuser);
+        JSONArray arr = new JSONArray();
+        if(expTeamList.size() > 0){
+            for(Expuser exp:expTeamList){
+                JSONObject json = new JSONObject();
+                JSONArray array = new JSONArray();
+                for(Expuser e:expuserList){
+                    if(exp.getTeamid()==e.getTeamid()){
+                        JSONObject json1 = new JSONObject();
+                        json1.put("id",e.getExpuserid());
+                        json1.put("name",e.getExpusername());
+                        array.add(json1);
+                    }
+                }
+                json.put("id",exp.getTeamid());
+                json.put("name",exp.getTeamname());
+                json.put("children",array);
+                arr.add(json);
+            }
+        }
+        return arr;
+    }
+
+    //confirmFinalExp 确认完成配送
+    @ResponseBody
+    @RequestMapping(value = "/express/dealfpexpuser", method = RequestMethod.POST)
+    public Json dealfpexpuser(String ids, String id) {
+        Json j = new Json();
+        try {
+            log.info(ids+"=========="+id);
+           int flag = 0;
+            if(flag==0){
+                j.setSuccess(true);
+                j.setMsg("快递员分配成功！");
+            }else {
+                j.setSuccess(false);
+                j.setMsg("快递员分配失败！");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             j.setMsg(e.getMessage());

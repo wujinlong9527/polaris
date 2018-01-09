@@ -72,6 +72,28 @@
                 }
             });
         }
+
+        function DistributionExpuser() {
+            var row = $("#datagrid").datagrid('getSelected');
+            if (row) {
+                var id = row.id;
+                $('#iframe1')[0].src = '${path}/express/fpexpgroup?id=' + id;
+                $('#openRoleDiv').dialog('open');
+            } else {
+                $.messager.alert('提示', '请选择要分派的订单！', 'error');
+            }
+        }
+
+        function saveConfig() {
+            window.frames["iframe1"].save();
+        }
+
+        function linkDisable() {
+            $("#btnok").linkbutton("disable");
+        }
+        function linkShow() {
+            $("#btnok").linkbutton("enable");
+        }
     </script>
 
 </head>
@@ -122,12 +144,23 @@
                    iconCls="icon-reload" plain="true" onclick="onReset();" >重置</a>
 
                 <a href="javascript:void(0);" class="easyui-linkbutton"
-                   iconCls="icon-remove" plain="true" onclick="onReset();" >分派快递员</a>
+                   iconCls="icon-remove" plain="true" onclick="DistributionExpuser();" >分派快递员</a>
             </div>
         </form>
 
     </div>
+    <div id="openRoleDiv" class="easyui-dialog" closed="true" modal="true" title="分配快递员"
+         style="width:360px;height:350px;" buttons="#configdlg-buttons">
+        <iframe scrolling="auto" id='iframe1' name='iframe1' frameborder="0" style="width:100%;height:100%;"></iframe>
+    </div>
 
+    <div id="configdlg-buttons">
+        <a id="btnok"  href="javascript:void(0)" class="easyui-linkbutton c6"
+           iconCls="icon-ok" onclick="saveConfig()" style="width:60px">确定</a> <a
+            href="javascript:void(0)" class="easyui-linkbutton"
+            iconCls="icon-cancel" onclick="javascript:$('#openRoleDiv').dialog('close')"
+            style="width:60px">取消</a>
+    </div>
 </div>
 
 </body>
