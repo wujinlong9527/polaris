@@ -84,7 +84,7 @@
                 $('#iframe1')[0].src = '${path}/express/fpexpgroup?id=' + id;
                 $('#openRoleDiv').dialog('open');
             } else {
-                $.messager.alert('提示', '请选择要分派的订单！', 'error');
+                $.messager.alert('提示', '请选择要分配派送员的订单！', 'error');
             }
         }
 

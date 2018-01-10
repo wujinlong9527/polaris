@@ -87,6 +87,12 @@ public class OrderController {
         model.addAttribute("id",id);
         return "order/printwl";
     }
+
+    @RequestMapping(value = "/order/rollbacklist", method = RequestMethod.GET)
+    public String rollbacklist(Model model) {
+        return "order/rollbacklist";
+    }
+
     /**
      * 用户表格
      * @return DataGrid
@@ -450,5 +456,44 @@ public class OrderController {
         exp.setExpressid(expressid);
         exp.setExptime(rq);
         return exp;
+    }
+
+
+
+
+    /**
+     * 退货订单查询
+     * @return DataGrid
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order/datagridback", method = RequestMethod.POST)
+    public DataGrid datagridback(Order order ,HttpServletRequest request) {
+        String account= request.getSession().getAttribute("user").toString();
+        List<User> list= userService.getgroupname(account);
+        String groupid = "";
+        for(User user:list){
+            groupid = user.getGroupid();
+        }
+        if(groupid.equals("888888")){
+            account="";
+        }
+        order.setAccount(account);
+        DataGrid dg = new DataGrid();
+        try {
+            if ((order.getFinaltime() != null) && (order.getFinaltime() != "")
+                    && (10 == order.getFinaltime().length())) {
+                order.setFinaltime(order.getFinaltime() + " 23:59:59");
+            }
+            if("全部".equals(order.getDdzt())) {
+                order.setDdzt("");
+            }
+            dg.setTotal(orderService.getOrderbackCount(order));
+            List<Order> orderList = orderService.getOrderbackList(order);
+            dg.setRows(orderList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dg;
     }
 }

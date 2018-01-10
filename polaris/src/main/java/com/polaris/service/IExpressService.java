@@ -48,4 +48,6 @@ public interface IExpressService {
     public String getExpuserPhone(String eid);
 
     public int updateExpressinfoByid(String id,String phone,String expuserid);
+
+    public int judgeexpuid(int id);
 }

@@ -52,4 +52,8 @@ public interface OrderMapper {
     public List<Order> getOrderById(@Param("id") long id);
 
     public void updateOrderzt(@Param("orderid") String orderid,@Param("goodsid") String goodsid);
+
+    public List<Order> getOrderbackList(Order order);
+
+    public Long getOrderbackCount(Order order);
 }

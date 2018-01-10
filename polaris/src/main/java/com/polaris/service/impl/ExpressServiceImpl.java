@@ -212,4 +212,15 @@ public class ExpressServiceImpl implements IExpressService {
         }
         return ret;
     }
+
+    public int judgeexpuid(int id){
+        int ret = 0;
+        try {
+            ret = expressMapper.judgeexpuid(id);
+        }catch (Exception e){
+            ret = 9;
+            e.printStackTrace();
+        }
+        return ret;
+    }
 }

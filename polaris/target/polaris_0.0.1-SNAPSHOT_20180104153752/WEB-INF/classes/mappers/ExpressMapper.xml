@@ -133,4 +133,8 @@
     <update id="updateExpressinfoByid" parameterType="String">
         update ee01 set exphone=#{phone},expuserid=#{expuserid} where id=#{id}
     </update>
+
+    <select id="judgeexpuid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM ee01 WHERE expuserid ='' and exphone='' AND id=#{id};
+    </select>
 </mapper>

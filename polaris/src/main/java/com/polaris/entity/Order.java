@@ -153,6 +153,26 @@ public class Order extends PageHelper {
 
     private String lqbz;
 
+    private String thbz;
+
+    private String ddbzmc;
+
+    public String getThbz() {
+        return thbz;
+    }
+
+    public void setThbz(String thbz) {
+        this.thbz = thbz;
+    }
+
+    public String getDdbzmc() {
+        return ddbzmc;
+    }
+
+    public void setDdbzmc(String ddbzmc) {
+        this.ddbzmc = ddbzmc;
+    }
+
     public String getLqbz() {
         return lqbz;
     }

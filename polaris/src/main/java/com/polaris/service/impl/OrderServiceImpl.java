@@ -155,4 +155,18 @@ public class OrderServiceImpl implements IOrderService {
         }
         return ret;
     }
+
+    public List<Order> getOrderbackList(Order order) {
+        List<Order> list = new ArrayList<Order>();
+        try {
+            list = orderMapper.getOrderbackList(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Long getOrderbackCount(Order order){
+        return orderMapper.getOrderbackCount(order);
+    }
 }

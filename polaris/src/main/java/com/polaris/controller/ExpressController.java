@@ -327,14 +327,20 @@ public class ExpressController {
             int id = Integer.parseInt(arr[0]);
             String orderid = arr[1].trim();
             String goodsid = arr[2].trim();
-            int flag = expressService.confirmFinalExp(id);
-            if(flag==0){
-                orderService.updateOrderzt(orderid,goodsid);
-                j.setSuccess(true);
-                j.setMsg("订单配送完成确认成功！");
-            }else {
+            int ret = expressService.judgeexpuid(id);
+            if(ret >0 ){
                 j.setSuccess(false);
-                j.setMsg("订单配送完成确认失败！");
+                j.setMsg("该订单没有分配派送员，不允许确认结束！");
+            }else{
+                int flag = expressService.confirmFinalExp(id);
+                if(flag==0){
+                    orderService.updateOrderzt(orderid,goodsid);
+                    j.setSuccess(true);
+                    j.setMsg("订单配送完成确认成功！");
+                }else {
+                    j.setSuccess(false);
+                    j.setMsg("订单配送完成确认失败！");
+                }
             }
             j.setObj(expuser);
         } catch (Exception e) {

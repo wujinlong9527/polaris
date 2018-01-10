@@ -49,4 +49,8 @@ public interface IOrderService {
     public List<Order> getOrderById(long id);
 
     public int updateOrderzt(String orderid,String goodsid);
+
+    public List<Order> getOrderbackList(Order order);
+
+    public Long getOrderbackCount(Order order);
 }
