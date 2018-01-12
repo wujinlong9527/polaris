@@ -44,7 +44,10 @@
 
     <select id="getOrderList" resultType="com.polaris.entity.Order">
         SELECT DISTINCT a.id,a.orderid,a.groupid,b.groupname,a.price,a.amount,a.count,a.goodsid,c.goodsname,c.count gcount,a.readdress,a.account,a.username,a.phone,
-        a.tel,a.inserttime,(SELECT aaa102 FROM aa10 WHERE aaa100='ddzt' AND aaa101=a.ddzt ) ddzt,(SELECT expusername FROM expuser f WHERE f.expuserid=d.expuserid) expressname,d.expuserid expressid,a.jsfs,a.jszt,a.endtime,a.aab301,a.sfqr,a.ddbz,a.ckqr
+        a.tel,a.inserttime,(SELECT aaa102 FROM aa10 WHERE aaa100='ddzt' AND aaa101=a.ddzt ) ddzt,
+        (SELECT expusername FROM expuser f WHERE f.expuserid=d.expuserid) expressname,
+        d.expuserid expressid,a.jsfs,a.jszt,a.endtime,a.aab301,a.sfqr,a.ddbz,a.ckqr,(SELECT aaa102 FROM
+        aa10 f WHERE f.aaa100='ddbz' AND f.aaa101=a.ddbz) ddbzmcls
         FROM aa01 a LEFT JOIN sysuser b ON  a.groupid=b.groupid
         LEFT JOIN gg01 c ON a.goodsid=c.goodsid
         LEFT JOIN ee01 d ON a.orderid=d.orderid AND a.goodsid=d.goodsid
@@ -67,7 +70,9 @@
 
     <select id="getOrderListqr" resultType="com.polaris.entity.Order">
         SELECT DISTINCT a.id,a.orderid,a.groupid,b.groupname,a.price,a.amount,a.count,a.goodsid,c.goodsname,c.count gcount,a.readdress,a.account,a.username,a.phone,
-        a.tel,a.inserttime,(SELECT aaa102 FROM aa10 WHERE aaa100='ddzt' AND aaa101=a.ddzt ) ddzt,a.expressname,a.expressid,a.jsfs,a.jszt,a.endtime,a.aab301,a.sfqr,a.ddbz,a.ckqr
+        a.tel,a.inserttime,(SELECT aaa102 FROM aa10 WHERE aaa100='ddzt' AND aaa101=a.ddzt ) ddzt,a.expressname,a.expressid,a.jsfs,a.jszt,
+        a.endtime,a.aab301,a.sfqr,a.ddbz,a.ckqr,(SELECT aaa102 FROM
+        aa10 f WHERE f.aaa100='ddbz' AND f.aaa101=a.ddbz) ddbzmc
         FROM aa01 a LEFT JOIN sysuser b ON  a.groupid=b.groupid
         LEFT JOIN gg01 c ON a.goodsid=c.goodsid
         WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
@@ -126,7 +131,9 @@
 
     <select id="getOrderListck" resultType="com.polaris.entity.Order">
         SELECT DISTINCT a.id,a.orderid,a.groupid,b.groupname,a.price,a.amount,a.count,a.goodsid,c.goodsname,c.count gcount,a.readdress,a.account,a.username,a.phone,
-        a.tel,a.inserttime,(SELECT aaa102 FROM aa10 WHERE aaa100='ddzt' AND aaa101=a.ddzt ) ddzt,a.expressname,a.expressid,a.jsfs,a.jszt,a.endtime,a.aab301,a.sfqr,a.ckqr,a.ddbz
+        a.tel,a.inserttime,(SELECT aaa102 FROM aa10 WHERE aaa100='ddzt' AND aaa101=a.ddzt ) ddzt,a.expressname,a.expressid,
+        a.jsfs,a.jszt,a.endtime,a.aab301,a.sfqr,a.ckqr,a.ddbz,(SELECT aaa102 FROM
+        aa10 f WHERE f.aaa100='ddbz' AND f.aaa101=a.ddbz) ddbzmc
         FROM aa01 a LEFT JOIN sysuser b ON  a.groupid=b.groupid
         LEFT JOIN gg01 c ON a.goodsid=c.goodsid
         WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
@@ -147,7 +154,8 @@
 
     <select id="getOrderListwl" resultType="com.polaris.entity.Order">
         SELECT DISTINCT a.id,a.orderid,a.groupid,b.groupname,a.price,a.amount,a.count,a.goodsid,c.goodsname,c.count gcount,a.readdress,a.account,a.username,a.phone,
-        a.tel,a.inserttime,a.sfqr,a.ckqr,a.ddbz,a.wlqr,a.lqbz
+        a.tel,a.inserttime,a.sfqr,a.ckqr,a.ddbz,a.wlqr,a.lqbz,(SELECT aaa102 FROM
+        aa10 f WHERE f.aaa100='ddbz' AND f.aaa101=a.ddbz) ddbzmc
         FROM aa01 a LEFT JOIN sysuser b ON  a.groupid=b.groupid
         LEFT JOIN gg01 c ON a.goodsid=c.goodsid
         WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
@@ -203,7 +211,7 @@
     <select id="getOrderbackCount" resultType="java.lang.Long">
         SELECT count(1) FROM aa01 a
         WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
-        AND a.ddzt='01' AND a.ddbz='05'
+        AND a.ddzt='01' AND a.ddbz in ('05','08','09','11','12','10')
         <if test="inserttime != null and inserttime != ''">
             <![CDATA[and  a.inserttime >= #{inserttime} ]]>
         </if>
@@ -224,7 +232,7 @@
         LEFT JOIN gg01 c ON a.goodsid=c.goodsid
         LEFT JOIN ee01 d ON a.orderid=d.orderid AND a.goodsid=d.goodsid
         WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
-        AND a.ddzt='01' AND a.ddbz='05'
+        AND a.ddzt='01' AND a.ddbz in ('05','08','09','11','12','10')
         <if test="inserttime != null and inserttime != ''">
             <![CDATA[and  a.inserttime >= #{inserttime} ]]>
         </if>
@@ -236,4 +244,65 @@
         </if>
 
     </select>
+
+    <update id="agreeorder">
+        update aa01 set thqry=#{account},ddbz='08' where id=#{id}
+    </update>
+
+    <update id="refuseorder">
+        update aa01 set thqry=#{account},ddbz='09' where id=#{id}
+    </update>
+
+    <update id="agreeExchangeOrder">
+        update aa01 set thqry=#{account},ddbz='11' where id=#{id}
+    </update>
+
+    <update id="refuseExchangeOrder">
+        update aa01 set thqry=#{account},ddbz='12' where id=#{id}
+    </update>
+
+    <select id="getOrderListrk" resultType="com.polaris.entity.Order">
+        SELECT DISTINCT a.id,a.orderid,a.price,a.count,a.amount,a.goodsid,c.goodsname,c.count gcount,a.readdress,a.username,a.phone,
+        a.inserttime,(SELECT aaa102 FROM aa10 WHERE aaa100='ddzt' AND aaa101=a.ddzt ) ddzt,a.thtime,a.hhtime,
+        a.endtime,a.rkqr,a.ddbz,(SELECT aaa102 FROM
+        aa10 f WHERE f.aaa100='ddbz' AND f.aaa101=a.ddbz) ddbzmc
+        FROM aa01 a LEFT JOIN sysuser b ON  a.groupid=b.groupid
+        LEFT JOIN gg01 c ON a.goodsid=c.goodsid
+        WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
+        AND a.ddzt LIKE CONCAT('%',#{ddzt},'%') AND a.ddbz IN ('08','11')
+        <if test="inserttime != null and inserttime != ''">
+            <![CDATA[and  a.inserttime >= #{inserttime} ]]>
+        </if>
+        <if test="finaltime != null and finaltime != ''">
+            <![CDATA[and  a.inserttime < #{finaltime} ]]>
+        </if>
+        <if test="orderid != null and orderid != ''">
+            and  a.orderid LIKE CONCAT('%',#{orderid},'%')
+        </if>
+        <if test="rkqr != null and rkqr != ''">
+            and  a.rkqr LIKE CONCAT('%',#{rkqr},'%')
+        </if>
+    </select>
+
+    <select id="getOrderCountrk" resultType="java.lang.Long">
+        SELECT count(1) FROM aa01 a
+        WHERE a.groupid IN (SELECT groupid FROM sysuser b WHERE b.account LIKE CONCAT('%',#{account},'%'))
+        and a.ddzt like concat('%',#{ddzt},'%') AND a.ddbz IN ('08','11')
+        <if test="inserttime != null and inserttime != ''">
+            <![CDATA[and  a.inserttime >= #{inserttime} ]]>
+        </if>
+        <if test="finaltime != null and finaltime != ''">
+            <![CDATA[and  a.inserttime < #{finaltime} ]]>
+        </if>
+        <if test="orderid != null and orderid != ''">
+            and  a.orderid LIKE CONCAT('%',#{orderid},'%')
+        </if>
+        <if test="rkqr != null and rkqr != ''">
+            and  a.rkqr LIKE CONCAT('%',#{rkqr},'%')
+        </if>
+    </select>
+
+    <update id="makeorderrk">
+        update aa01 set rkqry=#{account},ddbz='03',rkqr='1' where id=#{id}
+    </update>
 </mapper>

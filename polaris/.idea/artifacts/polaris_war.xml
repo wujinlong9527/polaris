@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="polaris:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="polaris_0.0.1-SNAPSHOT_20180104153752.war">
+    <root id="archive" name="polaris.war">
       <element id="artifact" artifact-name="polaris:war exploded" />
     </root>
   </artifact>

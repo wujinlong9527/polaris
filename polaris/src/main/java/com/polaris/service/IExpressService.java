@@ -50,4 +50,6 @@ public interface IExpressService {
     public int updateExpressinfoByid(String id,String phone,String expuserid);
 
     public int judgeexpuid(int id);
+
+    public void updateckcount(String goodsid,int gcount);
 }

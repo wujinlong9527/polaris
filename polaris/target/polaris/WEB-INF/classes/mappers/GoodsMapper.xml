@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.polaris.mapper.polaris.GoodsMapper">
+
+    <select id="getGoodsCount" resultType="java.lang.Long">
+        SELECT count(1) FROM gg01 WHERE groupid IN (SELECT groupid FROM sysuser WHERE account like CONCAT('%',#{account},'%'))
+        <if test="inserttime != null and inserttime != ''">
+            <![CDATA[and  inserttime >= #{inserttime} ]]>
+        </if>
+        <if test="finaltime != null and finaltime != ''">
+            <![CDATA[and  inserttime < #{finaltime} ]]>
+        </if>
+        <if test="goodsid != null and goodsid != ''">
+            and goodsid LIKE CONCAT('%',#{goodsid},'%')
+        </if>
+
+    </select>
+
+    <select id="getGoodsList" resultType="com.polaris.entity.Goods">
+        SELECT a.id,a.groupid,a.goodsid,a.price,a.count,a.goodsname,a.inserttime,a.aab301,a.aab302,
+        a.phaddress,a.gtype,a.gtypename,b.groupname FROM gg01 a LEFT JOIN sysgroup b ON a.groupid=b.groupid where
+        a.groupid IN (SELECT groupid FROM sysuser WHERE account like CONCAT('%',#{account},'%'))
+        <if test="inserttime != null and inserttime != ''">
+            <![CDATA[and  a.inserttime >= #{inserttime} ]]>
+        </if>
+        <if test="finaltime != null and finaltime != ''">
+            <![CDATA[and  a.inserttime < #{finaltime} ]]>
+        </if>
+        <if test="goodsid != null and goodsid != ''">
+           and a.goodsid LIKE CONCAT('%',#{goodsid},'%')
+        </if>
+
+        order by a.gtype,a.count
+    </select>
+
+    <insert id="addGoods">
+        insert into gg01 (groupid,goodsid,price,count,goodsname,inserttime,gtype,gtypename)
+        values (#{groupid},#{goodsid},#{price},#{count},#{goodsname},#{inserttime},#{gtype},#{gtypename})
+    </insert>
+
+    <update id="editGoods" >
+      update gg01 set price=#{price},count=#{count},gtype=#{gtype},gtypename=#{gtypename},goodsname=#{goodsname} where id=#{id}
+    </update>
+
+    <select id="getgoodstypeList" resultType="com.polaris.entity.Goods" parameterType="String">
+        SELECT id,aaa101 gtype,aaa102 gtypename from aa10 where aaa100='gtype'
+        <if test="gtype != null and gtype != ''">
+            and aaa101 LIKE CONCAT('%',#{gtype},'%')
+        </if>
+    </select>
+
+    <select id="gettypeName" parameterType="String" resultType="String">
+         SELECT aaa102 from aa10 where aaa100='gtype' and aaa101=#{gtype}
+    </select>
+
+    <select id="getgoodsname" resultType="com.polaris.entity.Goods" >
+        SELECT id,groupid,goodsid,goodsname,price,count FROM gg01
+        where 1=1
+        <if test="groupid != null and groupid != ''">
+            and groupid LIKE CONCAT('%',#{groupid},'%')
+        </if>
+        <if test="goodsid != null and goodsid != ''">
+            and goodsid LIKE CONCAT('%',#{goodsid},'%')
+        </if>
+    </select>
+
+    <delete id="delGoods" parameterType="Long" >
+        delete from gg01 where id = #{id}
+    </delete>
+
+    <update id="updateGoodsCount" >
+        update gg01 set count=#{count} where goodsid = #{goodsid} and count>0
+    </update>
+</mapper>

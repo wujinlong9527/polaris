@@ -56,4 +56,18 @@ public interface OrderMapper {
     public List<Order> getOrderbackList(Order order);
 
     public Long getOrderbackCount(Order order);
+
+    public int agreeorder(@Param("id") int id,@Param("account") String account);
+
+    public int refuseorder(@Param("id") int id,@Param("account") String account);
+
+    public int agreeExchangeOrder(@Param("id") int id,@Param("account") String account);
+
+    public int refuseExchangeOrder(@Param("id") int id,@Param("account") String account);
+
+    public List<Order> getOrderListrk(Order order);
+
+    public Long getOrderCountrk(Order order);
+
+    public int makeorderrk(@Param("id") int id,@Param("account") String account);
 }

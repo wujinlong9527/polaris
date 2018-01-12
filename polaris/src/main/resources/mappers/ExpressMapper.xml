@@ -135,6 +135,10 @@
     </update>
 
     <select id="judgeexpuid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM ee01 WHERE expuserid ='' and exphone='' AND id=#{id};
+        SELECT COUNT(1) FROM ee01 WHERE expuserid IS NULL and exphone IS NULL AND id=#{id};
     </select>
+
+    <update id="updateckcount">
+        update gg01 set count=#{gcount} where goodsid=#{goodsid}
+    </update>
 </mapper>

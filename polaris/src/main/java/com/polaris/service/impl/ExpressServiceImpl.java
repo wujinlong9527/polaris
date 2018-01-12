@@ -223,4 +223,12 @@ public class ExpressServiceImpl implements IExpressService {
         }
         return ret;
     }
+
+    public void updateckcount(String goodsid,int gcount){
+        try {
+            expressMapper.updateckcount(goodsid,gcount);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

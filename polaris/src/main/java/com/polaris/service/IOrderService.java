@@ -53,4 +53,18 @@ public interface IOrderService {
     public List<Order> getOrderbackList(Order order);
 
     public Long getOrderbackCount(Order order);
+
+    public int agreeorder(int id,String account);
+
+    public int refuseorder(int id,String account);
+
+    public int agreeExchangeOrder(int id,String account);
+
+    public int refuseExchangeOrder(int id,String account);
+
+    public List<Order> getOrderListrk(Order order);
+
+    public Long getOrderCountrk(Order order);
+
+    public int makeorderrk(int id,String account);
 }

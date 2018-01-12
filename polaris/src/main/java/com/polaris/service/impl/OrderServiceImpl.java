@@ -169,4 +169,73 @@ public class OrderServiceImpl implements IOrderService {
     public Long getOrderbackCount(Order order){
         return orderMapper.getOrderbackCount(order);
     }
+
+    public int agreeorder(int id,String account){
+        int ret = 0;
+        try {
+            orderMapper.agreeorder(id, account);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret=9;
+        }
+        return ret;
+    }
+
+    public int refuseorder(int id,String account){
+        int ret = 0;
+        try {
+            orderMapper.refuseorder(id, account);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret=9;
+        }
+        return ret;
+    }
+
+    public int agreeExchangeOrder(int id,String account){
+        int ret = 0;
+        try {
+            orderMapper.agreeExchangeOrder(id, account);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret=9;
+        }
+        return ret;
+    }
+
+    public int refuseExchangeOrder(int id,String account){
+        int ret = 0;
+        try {
+            orderMapper.refuseExchangeOrder(id, account);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret=9;
+        }
+        return ret;
+    }
+
+    public List<Order> getOrderListrk(Order order){
+        List<Order> list = new ArrayList<Order>();
+        try {
+            list = orderMapper.getOrderListrk(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Long getOrderCountrk(Order order){
+        return orderMapper.getOrderCountrk(order);
+    }
+
+    public int makeorderrk(int id,String account){
+        int ret = 0;
+        try {
+            orderMapper.makeorderrk(id, account);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret=9;
+        }
+        return ret;
+    }
 }

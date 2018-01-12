@@ -70,6 +70,10 @@ public class GoodsController {
         return "goods/confirmgoods";
     }
 
+    @RequestMapping(value = "/goods/ingoods", method = RequestMethod.GET)
+    public String ingoods(Model model, String menu_button) {
+        return "goods/ingoods";
+    }
     /**
      * 用户表格
      * @return DataGrid

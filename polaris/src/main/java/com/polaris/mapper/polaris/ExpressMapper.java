@@ -66,4 +66,6 @@ public interface ExpressMapper {
     public int updateExpressinfoByid(@Param("id") String id,@Param("phone") String phone,@Param("expuserid") String expuserid);
 
     public int judgeexpuid(@Param("id") int id);
+
+    public void updateckcount(@Param("goodsid") String goodsid,@Param("gcount") int gcount);
 }

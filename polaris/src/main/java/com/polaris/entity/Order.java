@@ -112,12 +112,12 @@ public class Order extends PageHelper {
      * 派送开始时间
      *
      * ***/
-    private String expbegintime;
+    private String thtime;
     /**
      * 派送完成时间
      *
      * ***/
-    private String expendtime;
+    private String hhtime;
     /**
      * 派送中途地址
      *
@@ -156,6 +156,42 @@ public class Order extends PageHelper {
     private String thbz;
 
     private String ddbzmc;
+
+    private String threason;
+
+    private String rkqr;
+
+    public String getRkqr() {
+        return rkqr;
+    }
+
+    public void setRkqr(String rkqr) {
+        this.rkqr = rkqr;
+    }
+
+    public String getHhtime() {
+        return hhtime;
+    }
+
+    public void setHhtime(String hhtime) {
+        this.hhtime = hhtime;
+    }
+
+    public String getThtime() {
+        return thtime;
+    }
+
+    public void setThtime(String thtime) {
+        this.thtime = thtime;
+    }
+
+    public String getThreason() {
+        return threason;
+    }
+
+    public void setThreason(String threason) {
+        this.threason = threason;
+    }
 
     public String getThbz() {
         return thbz;
@@ -401,22 +437,6 @@ public class Order extends PageHelper {
         this.endtime = endtime;
     }
 
-    public String getExpbegintime() {
-        return expbegintime;
-    }
-
-    public void setExpbegintime(String expbegintime) {
-        this.expbegintime = expbegintime;
-    }
-
-    public String getExpendtime() {
-        return expendtime;
-    }
-
-    public void setExpendtime(String expendtime) {
-        this.expendtime = expendtime;
-    }
-
     public String getExpaddr() {
         return expaddr;
     }
@@ -504,8 +524,6 @@ public class Order extends PageHelper {
                 ", jsfs='" + jsfs + '\'' +
                 ", jszt='" + jszt + '\'' +
                 ", endtime='" + endtime + '\'' +
-                ", expbegintime='" + expbegintime + '\'' +
-                ", expendtime='" + expendtime + '\'' +
                 ", expaddr='" + expaddr + '\'' +
                 ", aab301='" + aab301 + '\'' +
                 ", aab302='" + aab302 + '\'' +

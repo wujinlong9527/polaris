@@ -93,6 +93,18 @@ public class OrderController {
         return "order/rollbacklist";
     }
 
+    @RequestMapping(value = "/order/printth", method = RequestMethod.GET)
+    public String printth(Model model, int id) {
+        model.addAttribute("id",id);
+        return "order/printth";
+    }
+
+    @RequestMapping(value = "/order/printhh", method = RequestMethod.GET)
+    public String printhh(Model model, int id) {
+        model.addAttribute("id",id);
+        return "order/printhh";
+    }
+
     /**
      * 用户表格
      * @return DataGrid
@@ -495,5 +507,124 @@ public class OrderController {
             e.printStackTrace();
         }
         return dg;
+    }
+
+    /**
+     * 是否同意退货
+     * @return Json
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order/confirmorderback", method = RequestMethod.POST)
+    public Json confirmorderback(HttpServletRequest request,int id,int type) {
+        Json j = new Json();
+        String account = request.getSession().getAttribute("user").toString();
+        try {
+            int flag = 0;
+            if(type==1){
+                flag = orderService.agreeorder(id,account);
+                if(flag==0){
+                    j.setSuccess(true);
+                    j.setMsg("操作同意退单成功！");
+                }else {
+                    j.setSuccess(false);
+                    j.setMsg("操作同意退单失败！");
+                }
+            }else if(type==2){
+                flag = orderService.refuseorder(id, account);
+                if(flag==0){
+                    j.setSuccess(true);
+                    j.setMsg("操作拒绝退单成功！");
+                }else {
+                    j.setSuccess(false);
+                    j.setMsg("操作拒绝退单失败！");
+                }
+            }else if(type==11){
+                flag = orderService.agreeExchangeOrder(id, account);
+                if(flag==0){
+                    j.setSuccess(true);
+                    j.setMsg("同意换货操作成功！");
+                }else {
+                    j.setSuccess(false);
+                    j.setMsg("同意换货操作失败！");
+                }
+            }else if(type==12){
+                flag = orderService.refuseExchangeOrder(id, account);
+                if(flag==0){
+                    j.setSuccess(true);
+                    j.setMsg("拒绝换货操作成功！");
+                }else {
+                    j.setSuccess(false);
+                    j.setMsg("拒绝换货操作失败！");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
+    }
+
+    /**
+     * 入库确认用户表格
+     * @return DataGrid
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order/datagridrk", method = RequestMethod.POST)
+    public DataGrid datagridrk(Order order ,HttpServletRequest request) {
+        String account= request.getSession().getAttribute("user").toString();
+        List<User> list= userService.getgroupname(account);
+        String groupid = "";
+        for(User user:list){
+            groupid = user.getGroupid();
+        }
+        if(groupid.equals("888888")){
+            account="";
+        }
+        order.setAccount(account);
+        DataGrid dg = new DataGrid();
+        try {
+            order.setFinaltime(order.getFinaltime() + " 23:59:59");
+            if("全部".equals(order.getDdzt())) {
+                order.setDdzt("");
+            }
+            if("全部".equals(order.getRkqr())) {
+                order.setRkqr("");
+            }
+            dg.setTotal(orderService.getOrderCountrk(order));
+            List<Order> orderList = orderService.getOrderListrk(order);
+            dg.setRows(orderList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dg;
+    }
+
+    /**
+     * 确认库存
+     * @return Json
+     * @Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order/confirmgoodsrk", method = RequestMethod.POST)
+    public Json confirmgoodsrk(HttpServletRequest request,int id,int gcount,String goodsid) {
+        Json j = new Json();
+        String account = request.getSession().getAttribute("user").toString();
+        try {
+            int flag = orderService.makeorderrk(id, account);
+            if(flag==0){
+                expressService.updateckcount(goodsid,gcount);
+                j.setSuccess(true);
+                j.setMsg("入库确认成功！");
+            }else {
+                j.setSuccess(false);
+                j.setMsg("入库确认失败！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            j.setMsg(e.getMessage());
+        }
+        return j;
     }
 }
